@@ -31,3 +31,35 @@ services:
      - POSTGRES_PASSWORD=password
      - POSTGRES_USER=postgres
      - POSTGRES_DB=pgdev
+  postgresdev2:
+    image: postgres
+    ports:
+     - "5433:5432"
+    environment:
+     - POSTGRES_PASSWORD=password
+     - POSTGRES_USER=postgres2
+     - POSTGRES_DB=pgpost
+  user-api:
+    image: maven:3.6.1-jdk-8
+    ports:
+      - '8081:8081'
+    working_dir: /app
+    volumes:
+      - ./user-api:/app
+    depends_on:
+      - eureka
+    command: 'mvn spring-boot:run'
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+  post-api:
+    image: maven:3.6.1-jdk-8
+    ports:
+      - '8082:8082'
+    working_dir: /app
+    volumes:
+      - ./post-api:/app
+    depends_on:
+      - eureka
+    command: 'mvn spring-boot:run'
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
