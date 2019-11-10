@@ -2,7 +2,8 @@ version: '3'
 
 services:
   eureka:
-    image: maven:3.6.1-jdk-8
+    #image: maven:3.6.1-jdk-8
+    build: ./eureka-server
     ports:
       - '8761:8761'
     working_dir: /app
@@ -12,7 +13,8 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=dev
   api-gateway:
-    image: maven:3.6.1-jdk-8
+    #image: maven:3.6.1-jdk-8
+    build: ./api-gateway
     ports:
       - '8080:8080'
     working_dir: /app
@@ -30,7 +32,7 @@ services:
     environment:
      - POSTGRES_PASSWORD=password
      - POSTGRES_USER=postgres
-     - POSTGRES_DB=pgdev
+     - POSTGRES_DB=pguser
   postgresdev2:
     image: postgres
     ports:
@@ -39,8 +41,30 @@ services:
      - POSTGRES_PASSWORD=password
      - POSTGRES_USER=postgres2
      - POSTGRES_DB=pgpost
+  postgresdev3:
+    image: postgres
+    ports:
+     - "5434:5432"
+    environment:
+     - POSTGRES_PASSWORD=password
+     - POSTGRES_USER=postgres3
+     - POSTGRES_DB=pgcomment
+  comment-api:
+    #image: maven:3.6.1-jdk-8
+    build: ./comment-api
+    ports:
+      - '8083:8083'
+    working_dir: /app
+    volumes:
+      - ./comment-api:/app
+    depends_on:
+      - eureka
+    command: 'mvn spring-boot:run'
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
   user-api:
-    image: maven:3.6.1-jdk-8
+    #image: maven:3.6.1-jdk-8
+    build: ./user-api
     ports:
       - '8081:8081'
     working_dir: /app
@@ -52,7 +76,8 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=dev
   post-api:
-    image: maven:3.6.1-jdk-8
+    #image: maven:3.6.1-jdk-8
+    build: ./post-api
     ports:
       - '8082:8082'
     working_dir: /app

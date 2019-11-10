@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserApiApplication {
 
-	@RequestMapping("/user")
+	@RequestMapping("/")
 	public String home() {
 		return "usr test";
 	}

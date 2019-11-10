@@ -1,4 +1,4 @@
-package com.ga.postapi.postapi;
+package com.ga.commentapi.commentapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 @SpringBootApplication
 @EnableEurekaClient
 @RestController
-public class PostApiApplication {
+public class CommentApiApplication {
 
 	@RequestMapping("/")
 	public String home() {
-		return "post test";
+		return "comment test";
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(PostApiApplication.class, args);
+		SpringApplication.run(CommentApiApplication.class, args);
 	}
 
 }
