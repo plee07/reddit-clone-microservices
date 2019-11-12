@@ -2,33 +2,32 @@ package com.ga.postapi.postapi.controller;
 
 import com.ga.postapi.postapi.model.Post;
 import com.ga.postapi.postapi.service.PostService;
-import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
-@SpringBootApplication
-@EnableEurekaClient
 @RestController
 public class PostController {
 
     @Autowired
-    PostService postService;
+    private PostService postService;
 
-    @GetMapping("/post")
+    @GetMapping("/list")
     public Iterable<Post> getPost()
     {
         return postService.PostList();
     }
 
-    @PostMapping("/{username}/post")
-    public User addPost(@RequestBody String username, Post post)
+    @PostMapping("/post")
+    public Post createPost(@RequestBody Post post, @RequestHeader(value="Authorization") String jwToken) {
+        System.out.println(jwToken);
+        return postService.createPost(post, jwToken);
+    }
+
+    @PostMapping("/{postId}")
+    public HttpStatus deletePost(@RequestBody Long postId)
     {
-        return postService.addPost(username, post);
+        return postService.deletePost(postId);
     }
 
 

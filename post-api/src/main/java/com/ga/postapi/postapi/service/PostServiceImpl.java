@@ -1,6 +1,7 @@
 package com.ga.postapi.postapi.service;
 
 
+import com.ga.postapi.postapi.config.JwtUtil;
 import com.ga.postapi.postapi.model.Post;
 import com.ga.postapi.postapi.repository.PostRepository;
 import org.apache.tomcat.jni.User;
@@ -16,9 +17,17 @@ public class PostServiceImpl implements PostService {
     @Autowired
     PostRepository postRepository;
 
+    @Autowired
+    JwtUtil jwtUtil;
+
+//    @Override
+//    public User getUser(String username) {
+//        return userRepository.getUserByUsername(username);
+//    }
+
     @Override
     public User getUser(String username) {
-        return userRepository.getUserByUsername(username);
+        return null;
     }
 
     @Override
@@ -26,19 +35,20 @@ public class PostServiceImpl implements PostService {
         return postRepository.findById(postId).get();
     }
 
-//    @Override
-//    public HttpStatus createPost(String username, Post post) {
-//        postRepository.save(post);
-//        return HttpStatus.OK;
-//    }
-
     @Override
-    public User createPost(String username, Post post) {
-        User user = getUser(username);
-        postRepository.save(post);
-        user.addPost(post);
-        return userRepository.save(user);
+    public Post createPost(Post post, String jwtToken) {
+        String username = null;
+       username = jwtUtil.getUsernameFromToken(jwtToken);
+       return postRepository.save(post);
     }
+
+//    @Override
+//    public User createPost(String username, Post post) {
+//        User user = getUser(username);
+//        postRepository.save(post);
+//        user.addPost(post);
+//        return userRepository.save(user);
+//    }
 
 //    @Override
 //    public User deletePost(String username, Long postId) {
