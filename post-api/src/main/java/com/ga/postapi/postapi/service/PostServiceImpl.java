@@ -37,7 +37,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post createPost(Post post, String jwtToken) {
-        System.out.println(jwtToken);
+        System.out.println(jwtUtil.getUsernameFromToken(jwtToken.substring(6)));
         return postRepository.save(post);
     }
 
