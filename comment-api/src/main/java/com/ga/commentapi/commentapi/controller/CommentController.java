@@ -18,12 +18,12 @@ public class CommentController {
         this.commentService = commentService;
     }
 
-    @PostMapping("/comment/{postId}")
+    @PostMapping("/post/{postId}")
     public Comment createComment(@PathVariable long postId, @RequestBody Comment comment, @RequestHeader(value="Authorization") String jwToken) {
         return commentService.createComment(postId, comment, jwToken);
     }
 
-    @DeleteMapping("/comment/{commentId}")
+    @DeleteMapping("/{commentId}")
     public HttpStatus deleteComment(@PathVariable long commentId, @RequestHeader(value="Authorization") String jwToken) {
         return commentService.deleteComment(commentId, jwToken);
     }
