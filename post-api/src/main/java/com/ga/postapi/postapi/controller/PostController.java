@@ -20,7 +20,6 @@ public class PostController {
 
     @PostMapping("/post")
     public Post createPost(@RequestBody Post post, @RequestHeader(value="Authorization") String jwToken) {
-        System.out.println(jwToken);
         return postService.createPost(post, jwToken);
     }
 
