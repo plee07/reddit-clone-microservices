@@ -12,7 +12,7 @@ public interface PostService {
 
     public Post getPost(Long postId);
 
-    public Post createPost(Post post,String jwtToken );
+    public Post createPost(Post post,String id, String username);
 
     public HttpStatus deletePost(Long PostId);
 

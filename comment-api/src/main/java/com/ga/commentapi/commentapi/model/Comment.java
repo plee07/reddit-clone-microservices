@@ -9,6 +9,22 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public UserBean getUser() {
+        return user;
+    }
+
+    public void setUser(UserBean user) {
+        this.user = user;
+    }
+
     @Column
     private String text;
 
@@ -17,6 +33,12 @@ public class Comment {
 
     @Column(nullable=false)
     private Long userId;
+
+    @Column
+    private String username;
+
+    @Transient
+    UserBean user;
 
     public Comment(){}
 

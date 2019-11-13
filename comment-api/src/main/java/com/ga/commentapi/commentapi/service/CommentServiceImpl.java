@@ -16,19 +16,17 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     CommentRepository commentRepository;
 
-    @Autowired
-    JwtUtil jwtUtil;
-
     @Override
-    public Comment createComment(long postId, Comment comment, String jwToken) {
-        System.out.println(jwtUtil.getUsernameFromToken(jwToken.substring(6)));
-
+    public Comment createComment(long postId, Comment comment, String id, String username) {
+        comment.setPostId(postId);
+        comment.setUserId(Long.parseLong(id));
+        comment.setUsername(username);
         return commentRepository.save(comment);
     }
 
     @Override
     public HttpStatus deleteComment(long commentId, String jwToken) {
-        System.out.println(jwtUtil.getUsernameFromToken(jwToken.substring(6)));
+
         commentRepository.deleteById(commentId);
         return HttpStatus.OK;
     }
