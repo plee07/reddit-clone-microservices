@@ -20,7 +20,6 @@ public class CommentController {
 
     @PostMapping("/post/{postId}")
     public Comment createComment(@PathVariable long postId, @RequestBody Comment comment, @RequestHeader(value="Authorization") String jwToken) {
-        System.out.println(jwToken);
         return commentService.createComment(postId, comment, jwToken);
     }
 

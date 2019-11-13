@@ -21,16 +21,14 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment createComment(long postId, Comment comment, String jwToken) {
-        String username = null;
-        username = jwtUtil.getUsernameFromToken(jwToken);
+        System.out.println(jwtUtil.getUsernameFromToken(jwToken.substring(6)));
 
         return commentRepository.save(comment);
     }
 
     @Override
     public HttpStatus deleteComment(long commentId, String jwToken) {
-        String username = null;
-        username = jwtUtil.getUsernameFromToken(jwToken);
+        System.out.println(jwtUtil.getUsernameFromToken(jwToken.substring(6)));
         commentRepository.deleteById(commentId);
         return HttpStatus.OK;
     }
