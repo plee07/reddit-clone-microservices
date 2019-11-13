@@ -1,4 +1,6 @@
 package com.ga.postapi.postapi.model;
+import org.apache.tomcat.jni.User;
+
 import javax.persistence.*;
 
 @Entity
