@@ -20,10 +20,10 @@ public class CommentServiceImpl implements CommentService {
     JwtUtil jwtUtil;
 
     @Override
-    public Comment createComment(long postId, Comment comment, String jwToken) {
-        String username = null;
-        username = jwtUtil.getUsernameFromToken(jwToken);
-
+    public Comment createComment(long postId, Comment comment, String id, String username) {
+        comment.setPostId(postId);
+        comment.setUserId(Long.parseLong(id));
+        comment.setUsername(username);
         return commentRepository.save(comment);
     }
 

@@ -3,6 +3,7 @@ package com.ga.postapi.postapi.service;
 
 import com.ga.postapi.postapi.config.JwtUtil;
 import com.ga.postapi.postapi.model.Post;
+import com.ga.postapi.postapi.model.UserBean;
 import com.ga.postapi.postapi.repository.PostRepository;
 import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,27 +37,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post createPost(Post post, String jwtToken) {
-        System.out.println(jwtUtil.getUsernameFromToken(jwtToken.substring(6)));
+    public Post createPost(Post post, String id, String username) {
+//        System.out.println(jwtUtil.getUsernameFromToken(jwtToken.substring(6)));
+        post.setUserId(Long.parseLong(id));
+        post.setUsername(username);
         return postRepository.save(post);
     }
-
-//    @Override
-//    public User createPost(String username, Post post) {
-//        User user = getUser(username);
-//        postRepository.save(post);
-//        user.addPost(post);
-//        return userRepository.save(user);
-//    }
-
-//    @Override
-//    public User deletePost(String username, Long postId) {
-//        User user = getUser(username);
-//        Post song = postRepository.findById(postId).get();
-//        user.getPost().remove(song);
-////        songRepository.deleteById(songId);
-//        return userRepository.save(user);
-//    }
 
     @Override
     public HttpStatus deletePost(Long postId) {
@@ -67,6 +53,12 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Iterable<Post> PostList() {
-        return postRepository.findAll();
+        Iterable<Post> postList = postRepository.findAll();
+        for(Post post : postList){
+            UserBean user = new UserBean(post.getUsername());
+            post.setUser(user);
+        }
+        return postList;
+//        return postRepository.findAll();
     }
 }

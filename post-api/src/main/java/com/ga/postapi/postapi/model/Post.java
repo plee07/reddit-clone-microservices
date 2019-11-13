@@ -20,6 +20,29 @@ public class Post {
     @Column(nullable = false)
     private Long userId;
 
+    @Column
+    private String username;
+
+    @Transient
+    UserBean user;
+
+    public UserBean getUser() {
+        return user;
+    }
+
+    public void setUser(UserBean user) {
+        this.user = user;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+
     public Post(){}
 
     public Long getPostId() {

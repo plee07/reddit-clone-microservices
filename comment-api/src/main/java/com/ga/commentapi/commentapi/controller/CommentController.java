@@ -19,9 +19,8 @@ public class CommentController {
     }
 
     @PostMapping("/post/{postId}")
-    public Comment createComment(@PathVariable long postId, @RequestBody Comment comment, @RequestHeader(value="Authorization") String jwToken) {
-        System.out.println(jwToken);
-        return commentService.createComment(postId, comment, jwToken);
+    public Comment createComment(@PathVariable long postId, @RequestBody Comment comment, @RequestHeader("username") String username, @RequestHeader("userId") String id) {
+        return commentService.createComment(postId, comment, id, username);
     }
 
     @DeleteMapping("/{commentId}")
