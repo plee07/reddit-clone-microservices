@@ -1,15 +1,12 @@
 package com.ga.postapi.postapi.service;
 
 
-import com.ga.postapi.postapi.config.JwtUtil;
 import com.ga.postapi.postapi.model.Post;
 import com.ga.postapi.postapi.repository.PostRepository;
 import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class PostServiceImpl implements PostService {
