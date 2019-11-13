@@ -19,13 +19,13 @@ public class CommentController {
     }
 
     @PostMapping("/post/{postId}")
-    public Comment createComment(@PathVariable long postId, @RequestBody Comment comment, @RequestHeader(value="Authorization") String jwToken) {
-        return commentService.createComment(postId, comment, jwToken);
+    public Comment createComment(@PathVariable long postId, @RequestBody Comment comment, @RequestHeader("username") String username, @RequestHeader("userId") String id) {
+        return commentService.createComment(postId, comment, id);
     }
 
     @DeleteMapping("/{commentId}")
-    public HttpStatus deleteComment(@PathVariable long commentId, @RequestHeader(value="Authorization") String jwToken) {
-        return commentService.deleteComment(commentId, jwToken);
+    public HttpStatus deleteComment(@PathVariable long commentId, @RequestHeader("username") String username, @RequestHeader("userId") String id) {
+        return commentService.deleteComment(commentId, id);
     }
 
     @GetMapping("/post/{postId}/comment")

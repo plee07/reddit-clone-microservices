@@ -12,8 +12,7 @@ public interface PostService {
 
     public Post getPost(Long postId);
 
-    public Post createPost(Post post,String jwtToken );
-
+    public Post createPost(Post post,String id );
     public HttpStatus deletePost(Long PostId);
 
     public Iterable<Post> PostList();

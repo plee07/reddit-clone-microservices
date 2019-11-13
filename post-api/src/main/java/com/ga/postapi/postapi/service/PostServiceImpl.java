@@ -14,8 +14,7 @@ public class PostServiceImpl implements PostService {
     @Autowired
     PostRepository postRepository;
 
-    @Autowired
-    JwtUtil jwtUtil;
+
 
 //    @Override
 //    public User getUser(String username) {
@@ -33,8 +32,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post createPost(Post post, String jwtToken) {
-        System.out.println(jwtUtil.getUsernameFromToken(jwtToken.substring(6)));
+    public Post createPost(Post post, String id) {
+        post.setUserId(Long.parseLong(id));
         return postRepository.save(post);
     }
 

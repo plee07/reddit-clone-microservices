@@ -1,4 +1,5 @@
-package com.ga.user.userapi.model;
+package com.example.apigateway.model;
+import javax.persistence.*;
 
 import javax.persistence.*;
 

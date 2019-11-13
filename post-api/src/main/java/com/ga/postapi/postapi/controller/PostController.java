@@ -19,8 +19,8 @@ public class PostController {
     }
 
     @PostMapping("/post")
-    public Post createPost(@RequestBody Post post, @RequestHeader(value="Authorization") String jwToken) {
-        return postService.createPost(post, jwToken);
+    public Post createPost(@RequestBody Post post, @RequestHeader("username") String username, @RequestHeader("userId") String id) {
+        return postService.createPost(post, id);
     }
 
     @PostMapping("/{postId}")
