@@ -1,4 +1,5 @@
 package com.ga.postapi.postapi.model;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.tomcat.jni.User;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class Post {
     private Long userId;
 
     @Column
+    @JsonIgnore
     private String username;
 
     @Transient

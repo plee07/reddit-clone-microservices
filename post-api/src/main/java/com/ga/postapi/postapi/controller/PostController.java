@@ -24,7 +24,7 @@ public class PostController {
     }
 
     @DeleteMapping("/{postId}")
-    public HttpStatus deletePost(@RequestBody Long postId)
+    public HttpStatus deletePost(@PathVariable Long postId)
     {
         return postService.deletePost(postId);
     }

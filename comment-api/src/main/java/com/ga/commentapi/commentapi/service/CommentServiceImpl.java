@@ -2,6 +2,7 @@ package com.ga.commentapi.commentapi.service;
 
 import com.ga.commentapi.commentapi.config.JwtUtil;
 import com.ga.commentapi.commentapi.model.Comment;
+import com.ga.commentapi.commentapi.model.UserBean;
 import com.ga.commentapi.commentapi.repository.CommentRepository;
 import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +22,23 @@ public class CommentServiceImpl implements CommentService {
         comment.setPostId(postId);
         comment.setUserId(Long.parseLong(id));
         comment.setUsername(username);
+        comment.setUser(new UserBean(username));
         return commentRepository.save(comment);
     }
 
     @Override
-    public HttpStatus deleteComment(long commentId, String jwToken) {
-
+    public HttpStatus deleteComment(long commentId) {
         commentRepository.deleteById(commentId);
         return HttpStatus.OK;
     }
 
     @Override
     public Iterable<Comment> getCommentsByPostId(long postId) {
-        return commentRepository.findAll();
+        Iterable<Comment> commentList = commentRepository.findCommentByPostId(postId);
+        for(Comment comment : commentList){
+            comment.setUser(new UserBean(comment.getUsername()));
+        }
+        return commentList;
     }
 
     @Override
@@ -41,11 +46,4 @@ public class CommentServiceImpl implements CommentService {
         return null;
     }
 
-//    @Override
-//    public List<Comment> getCommentsByUser(String jwToken) {
-//        String username = null;
-//        username = jwtUtil.getUsernameFromToken(jwToken);
-//        User user = username.userRepository.get();
-//        return commentRepository.findAllById(user.getId());
-//    }
 }

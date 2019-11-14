@@ -35,6 +35,7 @@ public class PostServiceImpl implements PostService {
 //        System.out.println(jwtUtil.getUsernameFromToken(jwtToken.substring(6)));
         post.setUserId(Long.parseLong(id));
         post.setUsername(username);
+        post.setUser(new UserBean(username));
         return postRepository.save(post);
     }
 
@@ -49,8 +50,7 @@ public class PostServiceImpl implements PostService {
     public Iterable<Post> PostList() {
         Iterable<Post> postList = postRepository.findAll();
         for(Post post : postList){
-            UserBean user = new UserBean(post.getUsername());
-            post.setUser(user);
+            post.setUser(new UserBean(post.getUsername()));
         }
         return postList;
 //        return postRepository.findAll();
