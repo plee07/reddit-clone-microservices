@@ -6,8 +6,12 @@ import com.ga.postapi.postapi.model.UserBean;
 import com.ga.postapi.postapi.repository.PostRepository;
 import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -32,7 +36,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post createPost(Post post, String id, String username) {
-//        System.out.println(jwtUtil.getUsernameFromToken(jwtToken.substring(6)));
+
         post.setUserId(Long.parseLong(id));
         post.setUsername(username);
         post.setUser(new UserBean(username));
@@ -42,6 +46,15 @@ public class PostServiceImpl implements PostService {
     @Override
     public HttpStatus deletePost(Long postId) {
         postRepository.deleteById(postId);
+        RestTemplate rt = new RestTemplate();
+        String url = "http://comment-api:8083/deleteBy/{postid}";
+        HttpHeaders headers = new HttpHeaders();
+
+//        rt.getForObject("http://comments:8083/deleteBy/" + postId, String.class);
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+        ResponseEntity<String> result = rt.exchange(url, HttpMethod.GET, entity, String.class, postId);
+        System.out.println("THIS IS DEL" + result);
         return HttpStatus.OK;
     }
 

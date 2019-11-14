@@ -12,6 +12,11 @@ public class PostController {
     @Autowired
     private PostService postService;
 
+    @GetMapping("/test")
+    public String test(@RequestHeader("Authorization") String username){
+        return username;
+    }
+
     @GetMapping("/list")
     public Iterable<Post> getPost()
     {
