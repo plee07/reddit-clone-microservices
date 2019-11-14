@@ -42,8 +42,12 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getCommentsByUser(String jwToken) {
-        return null;
+    public Iterable<Comment> getCommentsByUserId(String username, Long userId) {
+        Iterable<Comment> commentList = commentRepository.findCommentByUserId(userId);
+        for(Comment comment : commentList){
+            comment.setUser(new UserBean(comment.getUsername()));
+        }
+        return commentList;
     }
 
 }

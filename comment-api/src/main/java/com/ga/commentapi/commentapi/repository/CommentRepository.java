@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface CommentRepository extends CrudRepository<Comment, Long> {
 
     public Iterable<Comment> findCommentByPostId(Long postId);
+    public Iterable<Comment> findCommentByUserId(Long userId);
 
 }

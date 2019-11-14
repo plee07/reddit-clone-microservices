@@ -34,4 +34,11 @@ public class CommentController {
         return commentService.getCommentsByPostId(postId);
     }
 
+    @GetMapping("/user/{userId}")
+    public Iterable<Comment> getCommentByUserId(@PathVariable Long userId, @RequestHeader("username") String username)
+    {
+        return commentService.getCommentsByUserId(username, userId);
+    }
+
+
 }
