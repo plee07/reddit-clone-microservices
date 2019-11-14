@@ -24,8 +24,8 @@ public class CommentController {
     }
 
     @DeleteMapping("/{commentId}")
-    public HttpStatus deleteComment(@PathVariable long commentId, @RequestHeader(value="Authorization") String jwToken) {
-        return commentService.deleteComment(commentId, jwToken);
+    public HttpStatus deleteComment(@PathVariable long commentId) {
+        return commentService.deleteComment(commentId);
     }
 
     @GetMapping("/post/{postId}/comment")
