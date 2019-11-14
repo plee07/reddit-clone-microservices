@@ -7,8 +7,11 @@ import com.ga.postapi.postapi.model.UserBean;
 import com.ga.postapi.postapi.repository.PostRepository;
 import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -38,7 +41,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post createPost(Post post, String id, String username) {
-//        System.out.println(jwtUtil.getUsernameFromToken(jwtToken.substring(6)));
+
         post.setUserId(Long.parseLong(id));
         post.setUsername(username);
         post.setUser(new UserBean(username));
@@ -48,6 +51,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public HttpStatus deletePost(Long postId) {
         postRepository.deleteById(postId);
+        RestTemplate rt = new RestTemplate();
+        rt.getForObject("http://comments:8083/deleteBy/" + postId, String.class);
+//        rt.exchange()
         return HttpStatus.OK;
     }
 

@@ -33,6 +33,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public Iterable<Comment> deleteCommentByPostId(long postId) {
+        return commentRepository.deleteCommentsByPostId(postId);
+    }
+
+    @Override
     public Iterable<Comment> getCommentsByPostId(long postId) {
         Iterable<Comment> commentList = commentRepository.findCommentByPostId(postId);
         for(Comment comment : commentList){

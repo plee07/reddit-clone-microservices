@@ -8,6 +8,7 @@ import java.util.List;
 public interface CommentService {
     public Comment createComment(long postId, Comment comment, String id, String username);
     public HttpStatus deleteComment(long commentId);
+    public Iterable<Comment> deleteCommentByPostId(long postId);
     public Iterable<Comment> getCommentsByPostId(long postId);
     public List<Comment> getCommentsByUser(String jwToken);
 }
