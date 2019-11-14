@@ -29,8 +29,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public HttpStatus deleteComment(long commentId, String jwToken) {
-        String username = null;
-        username = jwtUtil.getUsernameFromToken(jwToken);
         commentRepository.deleteById(commentId);
         return HttpStatus.OK;
     }
