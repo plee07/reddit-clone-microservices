@@ -15,9 +15,6 @@ public class PostServiceImpl implements PostService {
     @Autowired
     PostRepository postRepository;
 
-    @Autowired
-    JwtUtil jwtUtil;
-
 //    @Override
 //    public User getUser(String username) {
 //        return userRepository.getUserByUsername(username);
