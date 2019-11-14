@@ -51,13 +51,14 @@ public class PostServiceImpl implements PostService {
     public HttpStatus deletePost(Long postId) {
         postRepository.deleteById(postId);
         RestTemplate rt = new RestTemplate();
-        String url = "http://localhost:8080/comments/deleteBy/{postid}";
+        String url = "http://comment-api:8083/deleteBy/{postid}";
         HttpHeaders headers = new HttpHeaders();
 
 //        rt.getForObject("http://comments:8083/deleteBy/" + postId, String.class);
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
         ResponseEntity<String> result = rt.exchange(url, HttpMethod.GET, entity, String.class, postId);
+        System.out.println("THIS IS DEL" + result);
         return HttpStatus.OK;
     }
 
