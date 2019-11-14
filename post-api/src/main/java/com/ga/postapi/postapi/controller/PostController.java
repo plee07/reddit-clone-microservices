@@ -40,7 +40,4 @@ public class PostController {
         return postService.getPostByUserId(username,userId);
     }
 
-    @
-
-
 }
