@@ -29,5 +29,11 @@ public class PostController {
         return postService.deletePost(postId);
     }
 
+    @GetMapping("/user/{userId}")
+    public Iterable<Post> getPostByUserId(@PathVariable Long userId, @RequestHeader("username") String username)
+    {
+        return postService.getPostByUserId(username,userId);
+    }
+
 
 }

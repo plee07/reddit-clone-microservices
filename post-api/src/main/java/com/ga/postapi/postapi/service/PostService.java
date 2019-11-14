@@ -17,4 +17,6 @@ public interface PostService {
     public HttpStatus deletePost(Long PostId);
 
     public Iterable<Post> PostList();
+
+    public Iterable<Post> getPostByUserId(String username, Long userId);
 }
