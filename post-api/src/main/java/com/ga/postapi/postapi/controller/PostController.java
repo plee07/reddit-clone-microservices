@@ -40,4 +40,10 @@ public class PostController {
         return postService.getPostByUserId(username,userId);
     }
 
+    @GetMapping("/user")
+    public Iterable<Post> getPostByUsername(@RequestHeader("username") String username)
+    {
+        return postService.getPostsByUsername(username);
+    }
+
 }

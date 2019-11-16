@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface PostRepository extends CrudRepository<Post, Long>  {
     public Iterable<Post> findPostsByUserId(Long userId);
+    public Iterable<Post> findPostsByUsername(String username);
 
 }

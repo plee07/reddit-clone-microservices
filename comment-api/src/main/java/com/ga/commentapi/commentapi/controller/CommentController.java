@@ -12,8 +12,9 @@ import java.util.List;
 @RestController
 public class CommentController {
 
-    private CommentService commentService;
     @Autowired
+    private CommentService commentService;
+
     public void setCommentService(CommentService commentService) {
         this.commentService = commentService;
     }
@@ -34,10 +35,16 @@ public class CommentController {
         return commentService.getCommentsByPostId(postId);
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/user/{username}")
     public Iterable<Comment> getCommentByUserId(@PathVariable Long userId, @RequestHeader("username") String username)
     {
         return commentService.getCommentsByUserId(username, userId);
+    }
+
+    @GetMapping("/user")
+    public Iterable<Comment> getCommentByUsername(@RequestHeader("username") String username)
+    {
+        return commentService.getCommentsByUsername(username);
     }
 
     @GetMapping("/deleteBy/{postId}")

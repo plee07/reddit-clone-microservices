@@ -1,15 +1,11 @@
 package com.ga.commentapi.commentapi.service;
 
-import com.ga.commentapi.commentapi.config.JwtUtil;
 import com.ga.commentapi.commentapi.model.Comment;
 import com.ga.commentapi.commentapi.model.UserBean;
 import com.ga.commentapi.commentapi.repository.CommentRepository;
-import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -49,6 +45,15 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public Iterable<Comment> getCommentsByUserId(String username, Long userId) {
         Iterable<Comment> commentList = commentRepository.findCommentByUserId(userId);
+        for(Comment comment : commentList){
+            comment.setUser(new UserBean(comment.getUsername()));
+        }
+        return commentList;
+    }
+
+    @Override
+    public Iterable<Comment> getCommentsByUsername(String username) {
+        Iterable<Comment> commentList = commentRepository.findCommentsByUsername(username);
         for(Comment comment : commentList){
             comment.setUser(new UserBean(comment.getUsername()));
         }

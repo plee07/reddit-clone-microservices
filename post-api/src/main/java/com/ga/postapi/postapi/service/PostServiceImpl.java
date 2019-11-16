@@ -4,7 +4,6 @@ package com.ga.postapi.postapi.service;
 import com.ga.postapi.postapi.model.Post;
 import com.ga.postapi.postapi.model.UserBean;
 import com.ga.postapi.postapi.repository.PostRepository;
-import org.apache.tomcat.jni.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -23,11 +22,6 @@ public class PostServiceImpl implements PostService {
 //    public User getUser(String username) {
 //        return userRepository.getUserByUsername(username);
 //    }
-
-    @Override
-    public User getUser(String username) {
-        return null;
-    }
 
     @Override
     public Post getPost(Long postId) {
@@ -66,12 +60,20 @@ public class PostServiceImpl implements PostService {
             post.setUser(new UserBean(post.getUsername()));
         }
         return postList;
-//        return postRepository.findAll();
     }
 
     @Override
     public Iterable<Post> getPostByUserId(String username, Long userId) {
 
         return postRepository.findPostsByUserId(userId);
+    }
+
+    @Override
+    public Iterable<Post> getPostsByUsername(String username) {
+        Iterable<Post> postList = postRepository.findPostsByUsername(username);
+        for(Post post : postList){
+            post.setUser(new UserBean(post.getUsername()));
+        }
+        return postList;
     }
 }

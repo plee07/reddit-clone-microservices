@@ -8,8 +8,6 @@ import java.util.List;
 
 public interface PostService {
 
-    public User getUser(String username);
-
     public Post getPost(Long postId);
 
     public Post createPost(Post post,String id, String username);
@@ -19,4 +17,6 @@ public interface PostService {
     public Iterable<Post> PostList();
 
     public Iterable<Post> getPostByUserId(String username, Long userId);
+
+    public Iterable<Post> getPostsByUsername(String username);
 }
