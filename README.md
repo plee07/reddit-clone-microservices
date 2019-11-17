@@ -3,7 +3,7 @@
 This is the story of my life
 https://www.pivotaltracker.com/n/projects/2416905
 
-#Technologies Used
+# Technologies Used
 <li>
   Intellij
 <li>
