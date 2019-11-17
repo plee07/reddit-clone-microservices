@@ -21,15 +21,15 @@ public class AuthenticationFilter extends ZuulFilter {
     }
     @Override
     public boolean shouldFilter() {
-//        return SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
-        return true;
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        return (username != "anonymousUser");
     }
     @Override
     public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         User user = userService.getUser(username);
-        if(user != null)  ctx.addZuulRequestHeader("userId", String.valueOf(user.getId()));
+        if(user != null)  ctx.addZuulRequestHeader("userId", String.valueOf(user.getUserId()));
         ctx.addZuulRequestHeader("username", username);
         return null;
     }
