@@ -1,7 +1,7 @@
 # Reddit-Clone-Microservices
 
 ## Planning
-  For this project, we divided our time between coding and researching so we can get the most out of the new information we recieved. Our research consisted of learning more about microservices and how they are implemented when using inter-service communication and security. While researching, we were also developing our design for our project. As you can see in the diagram below, we used 3 services in our program: User, Post, and Comments. Each service has it's own database and each service has access to only it's database excluding User which shares a database with the Api-Gateway because that's where authorization is done. 
+  For this project, we divided our time between coding and researching so we can get the most out of the new information we recieved. Our research consisted of learning more about microservices and how they are implemented when using inter-service communication and security. While researching, we were also developing our design for our project. As you can see in the diagram below, we used 3 services in our program: User, Post, and Comments. Each service has it's own database and each service has access to only it's database excluding User which shares a database with the Api-Gateway because that's where authorization is done. After creating our diagram, we made skeleton designs for our services and went back to doing more research on microservices. After gaining a general grasp on the idea, we started pair programming while we were on campus and assigning task for each other at home.
 
 
 
