@@ -29,3 +29,6 @@
   Spring-boot
  <li> 
   Postman
+
+## Problems Encountered
+  This project was a hard one because of how complicated microservices were. Researching microservices lead to a lot of confusing information and differing of ideas. There were a lot of times where we just didn't know what to do and were stuck researching for a while to move on. 
