@@ -2,8 +2,7 @@ package com.ga.commentapi.commentapi.service;
 
 import com.ga.commentapi.commentapi.model.Comment;
 import org.springframework.http.HttpStatus;
-
-import java.util.List;
+import org.springframework.http.ResponseEntity;
 
 
 public interface CommentService {

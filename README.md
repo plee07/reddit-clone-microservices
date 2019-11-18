@@ -1,3 +1,9 @@
 # reddit-clone-microservices
 
-This is the story of my life
+
+## Design
+
+![design](images/design.png)
+
+API-GATEWAY
+- 

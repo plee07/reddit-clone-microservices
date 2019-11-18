@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -44,7 +43,6 @@ public class PostServiceImpl implements PostService {
         String url = "http://comment-api:8083/deleteBy/{postid}";
         HttpHeaders headers = new HttpHeaders();
 
-//        rt.getForObject("http://comments:8083/deleteBy/" + postId, String.class);
         headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
         HttpEntity<String> entity = new HttpEntity<String>(null, headers);
         ResponseEntity<String> result = rt.exchange(url, HttpMethod.GET, entity, String.class, postId);
@@ -75,5 +73,16 @@ public class PostServiceImpl implements PostService {
             post.setUser(new UserBean(post.getUsername()));
         }
         return postList;
+    }
+
+    @Override
+    public HttpStatus confirmId(Long postId) {
+        Post post;
+        try{
+            post = postRepository.findById(postId).get();
+        } catch(Exception e) {
+            return HttpStatus.NOT_FOUND;
+        }
+        return HttpStatus.FOUND;
     }
 }

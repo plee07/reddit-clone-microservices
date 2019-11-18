@@ -4,8 +4,11 @@ import com.ga.commentapi.commentapi.model.Comment;
 import com.ga.commentapi.commentapi.model.UserBean;
 import com.ga.commentapi.commentapi.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -15,11 +18,23 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment createComment(long postId, Comment comment, String id, String username) {
-        comment.setPostId(postId);
-        comment.setUserId(Long.parseLong(id));
-        comment.setUsername(username);
-        comment.setUser(new UserBean(username));
-        return commentRepository.save(comment);
+
+        //confirm postid exists
+        RestTemplate rt = new RestTemplate();
+        String url = "http://post-api:8082/check/{postid}";
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+        ResponseEntity<HttpStatus> result = rt.exchange(url, HttpMethod.GET, entity, HttpStatus.class, postId);
+        System.out.println("==================>" + result.getBody().toString());
+        if(result.getBody().equals(HttpStatus.FOUND)){
+            comment.setPostId(postId);
+            comment.setUserId(Long.parseLong(id));
+            comment.setUsername(username);
+            comment.setUser(new UserBean(username));
+            return commentRepository.save(comment);
+        } else return null;
     }
 
     @Override

@@ -1,10 +1,7 @@
 package com.ga.postapi.postapi.service;
 
 import com.ga.postapi.postapi.model.Post;
-import org.apache.tomcat.jni.User;
 import org.springframework.http.HttpStatus;
-
-import java.util.List;
 
 public interface PostService {
 
@@ -19,4 +16,6 @@ public interface PostService {
     public Iterable<Post> getPostByUserId(String username, Long userId);
 
     public Iterable<Post> getPostsByUsername(String username);
+
+    public HttpStatus confirmId(Long postId);
 }
