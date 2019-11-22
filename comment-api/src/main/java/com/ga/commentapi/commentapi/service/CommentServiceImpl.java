@@ -3,6 +3,8 @@ package com.ga.commentapi.commentapi.service;
 import com.ga.commentapi.commentapi.model.Comment;
 import com.ga.commentapi.commentapi.model.UserBean;
 import com.ga.commentapi.commentapi.repository.CommentRepository;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -44,6 +46,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    @RabbitListener(queuesToDeclare = @Queue("deleteCommentByPostId"))
     public Iterable<Comment> deleteCommentByPostId(long postId) {
         return commentRepository.deleteCommentsByPostId(postId);
     }
