@@ -1,8 +1,11 @@
 package com.ga.commentapi.commentapi.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ga.commentapi.commentapi.model.Comment;
 import com.ga.commentapi.commentapi.model.UserBean;
 import com.ga.commentapi.commentapi.repository.CommentRepository;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -44,8 +47,13 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Iterable<Comment> deleteCommentByPostId(long postId) {
-        return commentRepository.deleteCommentsByPostId(postId);
+    @RabbitListener(queuesToDeclare = @Queue("deleteCommentByPostId"))
+    public Iterable<Comment> deleteCommentByPostId(String message) {
+        String postIdJson = "";
+//        if (message.startsWith("deleteCommentByPostId")) {
+            Long postId = Long.parseLong(message.split(":")[1]);
+            return commentRepository.deleteCommentsByPostId(postId);
+//        }
     }
 
     @Override
