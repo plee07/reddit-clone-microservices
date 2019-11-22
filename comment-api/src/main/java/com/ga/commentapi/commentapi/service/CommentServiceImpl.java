@@ -1,6 +1,5 @@
 package com.ga.commentapi.commentapi.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ga.commentapi.commentapi.model.Comment;
 import com.ga.commentapi.commentapi.model.UserBean;
 import com.ga.commentapi.commentapi.repository.CommentRepository;
@@ -10,9 +9,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.Arrays;
 
 @Service
 public class CommentServiceImpl implements CommentService {
