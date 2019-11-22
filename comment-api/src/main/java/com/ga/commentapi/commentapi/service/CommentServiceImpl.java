@@ -61,7 +61,6 @@ public class CommentServiceImpl implements CommentService {
             Long postId = Long.parseLong(message.split(":")[1]);
             return commentRepository.deleteCommentsByPostId(postId);
 //        }
-
     }
 
     @Override
