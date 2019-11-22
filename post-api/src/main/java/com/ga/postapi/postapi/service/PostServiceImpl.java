@@ -41,9 +41,9 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public HttpStatus deletePost(Long postId) {
-        String message = "deleteCommentsByPostId:" + postId;
+        String message = "deleteCommentByPostId:" + postId;
         System.out.println("Sending message: " + message);
-        amqpTemplate.convertAndSend("deleteCommentsByPostId",message);
+        amqpTemplate.convertAndSend("deleteCommentByPostId",message);
 //        RestTemplate rt = new RestTemplate();
 //        String url = "http://comment-api:8083/deleteBy/{postid}";
 //        HttpHeaders headers = new HttpHeaders();
