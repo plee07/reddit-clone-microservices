@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ga.commentapi.commentapi.model.Comment;
 import com.ga.commentapi.commentapi.model.UserBean;
 import com.ga.commentapi.commentapi.repository.CommentRepository;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +20,25 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     CommentRepository commentRepository;
 
+    @Autowired
+    private AmqpTemplate amqpTemplate;
+
     @Override
-    public Comment createComment(long postId, Comment comment, String id, String username) {
+    public Comment createComment(Long postId, Comment comment, String id, String username) {
 
         //confirm postid exists
-        RestTemplate rt = new RestTemplate();
-        String url = "http://post-api:8082/check/{postid}";
-        HttpHeaders headers = new HttpHeaders();
+//        RestTemplate rt = new RestTemplate();
+//        String url = "http://post-api:8082/check/{postid}";
+//        HttpHeaders headers = new HttpHeaders();
 
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-        ResponseEntity<HttpStatus> result = rt.exchange(url, HttpMethod.GET, entity, HttpStatus.class, postId);
-        System.out.println("==================>" + result.getBody().toString());
-        if(result.getBody().equals(HttpStatus.FOUND)){
+//        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+//        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
+//        ResponseEntity<HttpStatus> result = rt.exchange(url, HttpMethod.GET, entity, HttpStatus.class, postId);
+//        System.out.println("==================>" + result.getBody().toString());
+        String message = "checkPostId:" + postId;
+        System.out.println("Sending message: " + message);
+        Long postIdcheck = (Long) amqpTemplate.convertSendAndReceive("checkPostId",message);
+        if(postIdcheck != null ){
             comment.setPostId(postId);
             comment.setUserId(Long.parseLong(id));
             comment.setUsername(username);

@@ -5,6 +5,8 @@ import com.ga.postapi.postapi.model.Post;
 import com.ga.postapi.postapi.model.UserBean;
 import com.ga.postapi.postapi.repository.PostRepository;
 import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.rabbit.annotation.Queue;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.*;
@@ -82,13 +84,13 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public HttpStatus confirmId(Long postId) {
-        Post post;
-        try{
-            post = postRepository.findById(postId).get();
-        } catch(Exception e) {
-            return HttpStatus.NOT_FOUND;
-        }
-        return HttpStatus.FOUND;
+    @RabbitListener(queuesToDeclare = @Queue("checkPostId"))
+    public Long confirmId(String message) {
+        String postIdJson = "";
+//        if (message.startsWith("deleteCommentByPostId")) {
+        Long postId = Long.parseLong(message.split(":")[1]);
+      return postRepository.findById(postId).get().getPostId();
+//        }
+
     }
 }

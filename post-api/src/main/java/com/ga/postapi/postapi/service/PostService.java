@@ -17,5 +17,5 @@ public interface PostService {
 
     public Iterable<Post> getPostsByUsername(String username);
 
-    public HttpStatus confirmId(Long postId);
+    public Long confirmId(String message);
 }

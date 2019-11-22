@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 
 
 public interface CommentService {
-    public Comment createComment(long postId, Comment comment, String id, String username);
+    public Comment createComment(Long postId, Comment comment, String id, String username);
     public HttpStatus deleteComment(long commentId);
     public Iterable<Comment> deleteCommentByPostId(String message);
     public Iterable<Comment> getCommentsByPostId(long postId);
