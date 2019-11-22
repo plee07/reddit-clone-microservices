@@ -4,6 +4,7 @@ package com.ga.postapi.postapi.service;
 import com.ga.postapi.postapi.model.Post;
 import com.ga.postapi.postapi.model.UserBean;
 import com.ga.postapi.postapi.repository.PostRepository;
+import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.*;
@@ -19,14 +20,11 @@ public class PostServiceImpl implements PostService {
     PostRepository postRepository;
 
     @Autowired
-    private RabbitTemplate rabbitTemplete;
+    private AmqpTemplate amqpTemplate;
 //    @Override
 //    public User getUser(String username) {
 //        return userRepository.getUserByUsername(username);
 //    }
-    private static final String EXCHANGE = "deleteCommentByPostId";
-    private static final String ROUTING_KEY = "post.comment";
-
     @Override
     public Post getPost(Long postId) {
         return postRepository.findById(postId).get();
@@ -43,8 +41,8 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public HttpStatus deletePost(Long postId) {
-       postRepository.deleteById(postId);
-       rabbitTemplete.convertAndSend(EXCHANGE,ROUTING_KEY,postId);
+
+        amqpTemplate.convertAndSend("deleteCommentsByPostId",postId);
 //        RestTemplate rt = new RestTemplate();
 //        String url = "http://comment-api:8083/deleteBy/{postid}";
 //        HttpHeaders headers = new HttpHeaders();
@@ -53,7 +51,8 @@ public class PostServiceImpl implements PostService {
 //        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
 //        ResponseEntity<String> result = rt.exchange(url, HttpMethod.GET, entity, String.class, postId);
 //        System.out.println("THIS IS DEL" + result);
-       return HttpStatus.OK;
+        postRepository.deleteById(postId);
+        return HttpStatus.OK;
     }
 
 
