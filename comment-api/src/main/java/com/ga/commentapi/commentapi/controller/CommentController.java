@@ -1,7 +1,7 @@
 package com.ga.commentapi.commentapi.controller;
 
 
-import com.ga.commentapi.commentapi.model.Comment;
+import com.ga.commentapi.commentapi.model.commentModel;
 import com.ga.commentapi.commentapi.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,7 +18,7 @@ public class CommentController {
     }
 
     @PostMapping("/post/{postId}")
-    public Comment createComment(@PathVariable long postId, @RequestBody Comment comment, @RequestHeader("username") String username, @RequestHeader("userId") String id) {
+    public commentModel createComment(@PathVariable long postId, @RequestBody commentModel comment, @RequestHeader("username") String username, @RequestHeader("userId") String id) {
         return commentService.createComment(postId, comment, id, username);
     }
 
@@ -28,19 +28,19 @@ public class CommentController {
     }
 
     @GetMapping("/post/{postId}/comment")
-    public Iterable<Comment> getCommentsByPostId(@PathVariable long postId)
+    public Iterable<commentModel> getCommentsByPostId(@PathVariable long postId)
     {
         return commentService.getCommentsByPostId(postId);
     }
 
     @GetMapping("/user/{username}")
-    public Iterable<Comment> getCommentByUserId(@PathVariable Long userId, @RequestHeader("username") String username)
+    public Iterable<commentModel> getCommentByUserId(@PathVariable Long userId, @RequestHeader("username") String username)
     {
         return commentService.getCommentsByUserId(username, userId);
     }
 
     @GetMapping("/user")
-    public Iterable<Comment> getCommentByUsername(@RequestHeader("username") String username)
+    public Iterable<commentModel> getCommentByUsername(@RequestHeader("username") String username)
     {
         return commentService.getCommentsByUsername(username);
     }

@@ -1,7 +1,7 @@
 package com.ga.commentapi.commentapi.service;
 
-import com.ga.commentapi.commentapi.model.Comment;
 import com.ga.commentapi.commentapi.model.UserBean;
+import com.ga.commentapi.commentapi.model.commentModel;
 import com.ga.commentapi.commentapi.repository.CommentRepository;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.annotation.Queue;
@@ -20,7 +20,7 @@ public class CommentServiceImpl implements CommentService {
     private AmqpTemplate amqpTemplate;
 
     @Override
-    public Comment createComment(Long postId, Comment comment, String id, String username) {
+    public commentModel createComment(Long postId, commentModel comment, String id, String username) {
 
         //confirm postid exists
 //        RestTemplate rt = new RestTemplate();
@@ -51,7 +51,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @RabbitListener(queuesToDeclare = @Queue("deleteCommentByPostId"))
-    public Iterable<Comment> deleteCommentByPostId(String message) {
+    public Iterable<commentModel> deleteCommentByPostId(String message) {
         String postIdJson = "";
 //        if (message.startsWith("deleteCommentByPostId")) {
             Long postId = Long.parseLong(message.split(":")[1]);
@@ -60,30 +60,31 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public Iterable<Comment> getCommentsByPostId(long postId) {
-        Iterable<Comment> commentList = commentRepository.findCommentByPostId(postId);
-        for(Comment comment : commentList){
+    public Iterable<commentModel> getCommentsByPostId(long postId) {
+        Iterable<commentModel> commentList = commentRepository.findCommentByPostId(postId);
+        for(commentModel comment : commentList){
             comment.setUser(new UserBean(comment.getUsername()));
         }
         return commentList;
     }
 
     @Override
-    public Iterable<Comment> getCommentsByUserId(String username, Long userId) {
-        Iterable<Comment> commentList = commentRepository.findCommentByUserId(userId);
-        for(Comment comment : commentList){
+    public Iterable<commentModel> getCommentsByUserId(String username, Long userId) {
+        Iterable<commentModel> commentList = commentRepository.findCommentByUserId(userId);
+        for(commentModel comment : commentList){
             comment.setUser(new UserBean(comment.getUsername()));
         }
         return commentList;
     }
 
     @Override
-    public Iterable<Comment> getCommentsByUsername(String username) {
-        Iterable<Comment> commentList = commentRepository.findCommentsByUsername(username);
-        for(Comment comment : commentList){
+    public Iterable<commentModel> getCommentsByUsername(String username) {
+        Iterable<commentModel> commentList = commentRepository.findCommentsByUsername(username);
+        for(commentModel comment : commentList){
             comment.setUser(new UserBean(comment.getUsername()));
         }
         return commentList;
     }
 
 }
+

@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "comments")
-public class Comment {
+public class commentModel {
     @Id
     @Column(name = "comment_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,7 @@ public class Comment {
     @Transient
     UserBean user;
 
-    public Comment(){}
+    public commentModel(){}
 
     public Long getCommentId() {
         return commentId;

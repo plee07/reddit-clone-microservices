@@ -1,15 +1,14 @@
 package com.ga.commentapi.commentapi.service;
 
-import com.ga.commentapi.commentapi.model.Comment;
+import com.ga.commentapi.commentapi.model.commentModel;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 
 public interface CommentService {
-    public Comment createComment(Long postId, Comment comment, String id, String username);
+    public commentModel createComment(Long postId, commentModel comment, String id, String username);
     public HttpStatus deleteComment(long commentId);
-    public Iterable<Comment> deleteCommentByPostId(String message);
-    public Iterable<Comment> getCommentsByPostId(long postId);
-    public Iterable<Comment> getCommentsByUserId(String username, Long userId);
-    public Iterable<Comment> getCommentsByUsername(String username);
+    public Iterable<commentModel> deleteCommentByPostId(String message);
+    public Iterable<commentModel> getCommentsByPostId(long postId);
+    public Iterable<commentModel> getCommentsByUserId(String username, Long userId);
+    public Iterable<commentModel> getCommentsByUsername(String username);
 }
