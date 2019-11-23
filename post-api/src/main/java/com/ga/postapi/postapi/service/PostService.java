@@ -17,5 +17,5 @@ public interface PostService {
 
     public Iterable<Post> getPostsByUsername(String username);
 
-    public Long confirmId(String message);
+    public String confirmId(String message) throws Exception;
 }

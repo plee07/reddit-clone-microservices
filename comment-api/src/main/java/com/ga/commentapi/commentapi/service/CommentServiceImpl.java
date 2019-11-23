@@ -6,6 +6,7 @@ import com.ga.commentapi.commentapi.repository.CommentRepository;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,9 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     private AmqpTemplate amqpTemplate;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     @Override
     public commentModel createComment(Long postId, commentModel comment, String id, String username) {
@@ -33,8 +37,9 @@ public class CommentServiceImpl implements CommentService {
 //        System.out.println("==================>" + result.getBody().toString());
         String message = "checkPostId:" + postId;
         System.out.println("Sending message: " + message);
-        Long postIdcheck = (Long) amqpTemplate.convertSendAndReceive("checkPostId",message);
-        if(postIdcheck != null ){
+        String postIdcheck = (String) rabbitTemplate.convertSendAndReceive("checkPostId",message);
+        System.out.println("COMMEN SIDE " + postIdcheck);
+        if(!postIdcheck.equals("NOT_FOUND")){
             comment.setPostId(postId);
             comment.setUserId(Long.parseLong(id));
             comment.setUsername(username);
@@ -51,12 +56,13 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @RabbitListener(queuesToDeclare = @Queue("deleteCommentByPostId"))
-    public Iterable<commentModel> deleteCommentByPostId(String message) {
-        String postIdJson = "";
-//        if (message.startsWith("deleteCommentByPostId")) {
-            Long postId = Long.parseLong(message.split(":")[1]);
-            return commentRepository.deleteCommentsByPostId(postId);
-//        }
+    public void deleteCommentByPostId(String message) {
+        Long postId = Long.parseLong(message.split(":")[1]);
+        try {
+            commentRepository.deleteCommentsByPostId(postId);
+        } catch(Exception e){
+
+        }
     }
 
     @Override

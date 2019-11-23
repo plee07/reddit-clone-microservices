@@ -1,6 +1,8 @@
 package com.ga.postapi.postapi.service;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ga.postapi.postapi.model.Post;
 import com.ga.postapi.postapi.model.UserBean;
 import com.ga.postapi.postapi.repository.PostRepository;
@@ -23,10 +25,10 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private AmqpTemplate amqpTemplate;
-//    @Override
-//    public User getUser(String username) {
-//        return userRepository.getUserByUsername(username);
-//    }
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
     @Override
     public Post getPost(Long postId) {
         return postRepository.findById(postId).get();
@@ -45,7 +47,7 @@ public class PostServiceImpl implements PostService {
     public HttpStatus deletePost(Long postId) {
         String message = "deleteCommentByPostId:" + postId;
         System.out.println("Sending message: " + message);
-        amqpTemplate.convertAndSend("deleteCommentByPostId",message);
+        rabbitTemplate.convertAndSend("deleteCommentByPostId",message);
 //        RestTemplate rt = new RestTemplate();
 //        String url = "http://comment-api:8083/deleteBy/{postid}";
 //        HttpHeaders headers = new HttpHeaders();
@@ -85,12 +87,19 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @RabbitListener(queuesToDeclare = @Queue("checkPostId"))
-    public Long confirmId(String message) {
-        String postIdJson = "";
-//        if (message.startsWith("deleteCommentByPostId")) {
+    public String confirmId(String message) throws Exception {
+        System.out.println("------------------------->" + message);
         Long postId = Long.parseLong(message.split(":")[1]);
-      return postRepository.findById(postId).get().getPostId();
-//        }
-
+        System.out.println("POSTID =================> " + postId);
+        ObjectMapper json = new ObjectMapper();
+        String returnVal;
+        Post post;
+        try{
+            post = postRepository.findById(postId).get();
+            if(post == null) System.out.println("THIS IS NULL!");
+        } catch (Exception e){
+            return "NOT_FOUND";
+        }
+       return json.writeValueAsString(String.valueOf(post.getPostId()));
     }
 }
