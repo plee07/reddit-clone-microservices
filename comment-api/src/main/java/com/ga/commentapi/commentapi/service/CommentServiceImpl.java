@@ -25,16 +25,6 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment createComment(Long postId, Comment comment, String id, String username) {
-
-        //confirm postid exists
-//        RestTemplate rt = new RestTemplate();
-//        String url = "http://post-api:8082/check/{postid}";
-//        HttpHeaders headers = new HttpHeaders();
-
-//        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-//        HttpEntity<String> entity = new HttpEntity<String>(null, headers);
-//        ResponseEntity<HttpStatus> result = rt.exchange(url, HttpMethod.GET, entity, HttpStatus.class, postId);
-//        System.out.println("==================>" + result.getBody().toString());
         String message = "checkPostId:" + postId;
         System.out.println("Sending message: " + message);
         String postIdcheck = (String) rabbitTemplate.convertSendAndReceive("checkPostId",message);

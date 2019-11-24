@@ -3,6 +3,8 @@ package com.ga.user.userapi.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +16,16 @@ public class User {
     private long userId;
 
     @Column(name = "username", unique = true)
+    @NotBlank(message = "Username must be provided")
     private String username;
 
+    @Column(name = "email", unique = true)
+    @NotBlank(message = "Email must be provided")
+    private String email;
+
     @Column(name = "password")
+    @NotBlank(message = "Password must be provided")
+    @Size(min = 6, message = "Password must be greater than size 6")
     private String password;
 
     @OneToOne(cascade = CascadeType.ALL)
@@ -39,6 +48,14 @@ public class User {
 
 
     public User() {}
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public long getUserId() {
         return userId;

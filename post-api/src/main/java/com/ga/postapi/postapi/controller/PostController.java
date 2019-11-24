@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 public class PostController {
 
@@ -24,7 +26,7 @@ public class PostController {
     }
 
     @PostMapping("/post")
-    public Post createPost(@RequestBody Post post, @RequestHeader("username") String username, @RequestHeader("userId") String id) {
+    public Post createPost(@Valid @RequestBody Post post, @RequestHeader("username") String username, @RequestHeader("userId") String id) {
         return postService.createPost(post, id, username);
     }
 
