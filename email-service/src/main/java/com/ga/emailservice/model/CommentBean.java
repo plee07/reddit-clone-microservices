@@ -1,6 +1,6 @@
 package com.ga.emailservice.model;
 
-public class Comment {
+public class CommentBean {
 
     private Long commentId;
     private String text;

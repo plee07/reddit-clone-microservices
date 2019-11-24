@@ -23,10 +23,7 @@ public class PostServiceImpl implements PostService {
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @Override
-    public Post getPost(Long postId) {
-        return postRepository.findById(postId).get();
-    }
+    private ObjectMapper json = new ObjectMapper();
 
     @Override
     public Post createPost(Post post, String id, String username) {
@@ -74,9 +71,6 @@ public class PostServiceImpl implements PostService {
     @RabbitListener(queuesToDeclare = @Queue("checkPostId"))
     public String confirmId(String message) throws JsonProcessingException {
         Long postId = Long.parseLong(message.split(":")[1]);
-
-        ObjectMapper json = new ObjectMapper();
-        String returnVal;
         Post post;
         try{
             post = postRepository.findById(postId).get();
@@ -86,4 +80,15 @@ public class PostServiceImpl implements PostService {
         }
        return json.writeValueAsString(String.valueOf(post.getPostId()));
     }
+
+    @Override
+    @RabbitListener(queuesToDeclare = @Queue("getPostById"))
+    public String getPost(String message) throws JsonProcessingException {
+        Long postId = Long.parseLong(message);
+        Post post = postRepository.findById(postId).get();
+        String postJson = json.writeValueAsString(post);
+        return postJson;
+    }
+
+
 }

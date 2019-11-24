@@ -67,6 +67,8 @@ services:
     command: 'mvn spring-boot:run'
     environment:
       - SPRING_PROFILES_ACTIVE=dev
+    links:
+      - rabbitmq
   post-api:
     #image: maven:3.6.1-jdk-8
     build: ./post-api
