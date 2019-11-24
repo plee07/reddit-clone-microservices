@@ -1,5 +1,7 @@
 package com.ga.commentapi.commentapi.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ga.commentapi.commentapi.model.Comment;
 import com.ga.commentapi.commentapi.model.UserBean;
 import com.ga.commentapi.commentapi.repository.CommentRepository;
@@ -18,22 +20,28 @@ public class CommentServiceImpl implements CommentService {
     CommentRepository commentRepository;
 
     @Autowired
-    private AmqpTemplate amqpTemplate;
-
-    @Autowired
     private RabbitTemplate rabbitTemplate;
 
+    private ObjectMapper json = new ObjectMapper();
+
     @Override
-    public Comment createComment(Long postId, Comment comment, String id, String username) {
+    public Comment createComment(Long postId, Comment comment, String id, String username) throws JsonProcessingException {
         String message = "checkPostId:" + postId;
         System.out.println("Sending message: " + message);
-        String postIdcheck = (String) rabbitTemplate.convertSendAndReceive("checkPostId",message);
-        System.out.println("COMMEN SIDE " + postIdcheck);
-        if(!postIdcheck.equals("NOT_FOUND")){
+        String postIdCheck = (String) rabbitTemplate.convertSendAndReceive("checkPostId",message);
+        System.out.println("COMMEN SIDE " + postIdCheck);
+        if(!postIdCheck.equals("NOT_FOUND")){
             comment.setPostId(postId);
             comment.setUserId(Long.parseLong(id));
             comment.setUsername(username);
             comment.setUser(new UserBean(username));
+
+            //if notify OP is true, send email
+            if(comment.isNotifyOP()){
+                String jsonComment = json.writeValueAsString(comment);
+                rabbitTemplate.convertAndSend("notifyOP", jsonComment);
+            }
+
             return commentRepository.save(comment);
         } else return null;
     }

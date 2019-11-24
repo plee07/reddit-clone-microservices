@@ -1,6 +1,7 @@
 package com.ga.commentapi.commentapi.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ga.commentapi.commentapi.model.Comment;
 import com.ga.commentapi.commentapi.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class CommentController {
     }
 
     @PostMapping("/post/{postId}")
-    public Comment createComment(@PathVariable long postId, @RequestBody Comment comment, @RequestHeader("username") String username, @RequestHeader("userId") String id) {
+    public Comment createComment(@PathVariable long postId, @RequestBody Comment comment, @RequestHeader("username") String username, @RequestHeader("userId") String id) throws JsonProcessingException {
         return commentService.createComment(postId, comment, id, username);
     }
 

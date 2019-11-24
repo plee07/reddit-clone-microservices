@@ -1,6 +1,6 @@
 package com.ga.commentapi.commentapi.model;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 @Entity
@@ -23,6 +23,9 @@ public class Comment {
     @Column
     @JsonIgnore
     private String username;
+
+    @Transient
+    private boolean notifyOP;
 
     @Transient
     UserBean user;
@@ -75,5 +78,13 @@ public class Comment {
 
     public void setUser(UserBean user) {
         this.user = user;
+    }
+
+    public boolean isNotifyOP() {
+        return notifyOP;
+    }
+
+    public void setNotifyOP(boolean notifyOP) {
+        this.notifyOP = notifyOP;
     }
 }

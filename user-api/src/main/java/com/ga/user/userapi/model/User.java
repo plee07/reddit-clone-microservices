@@ -3,6 +3,7 @@ package com.ga.user.userapi.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class User {
 
     @Column(name = "email", unique = true)
     @NotBlank(message = "Email must be provided")
+    @Email(message = "Invalid email format")
     private String email;
 
     @Column(name = "password")
