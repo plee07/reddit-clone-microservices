@@ -1,4 +1,4 @@
-package com.ga.commentapi.commentapi.model;
+package com.ga.commentapi.model;
 
 public class UserBean {
     private String username;

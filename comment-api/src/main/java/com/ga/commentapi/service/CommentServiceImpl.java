@@ -1,11 +1,10 @@
-package com.ga.commentapi.commentapi.service;
+package com.ga.commentapi.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ga.commentapi.commentapi.model.Comment;
-import com.ga.commentapi.commentapi.model.UserBean;
-import com.ga.commentapi.commentapi.repository.CommentRepository;
-import org.springframework.amqp.core.AmqpTemplate;
+import com.ga.commentapi.model.Comment;
+import com.ga.commentapi.model.UserBean;
+import com.ga.commentapi.repository.CommentRepository;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

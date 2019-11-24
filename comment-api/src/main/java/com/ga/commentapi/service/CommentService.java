@@ -1,7 +1,7 @@
-package com.ga.commentapi.commentapi.service;
+package com.ga.commentapi.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.ga.commentapi.commentapi.model.Comment;
+import com.ga.commentapi.model.Comment;
 import org.springframework.http.HttpStatus;
 
 

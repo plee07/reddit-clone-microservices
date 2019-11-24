@@ -1,4 +1,4 @@
-package com.ga.commentapi.commentapi.model;
+package com.ga.commentapi.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;

@@ -1,14 +1,15 @@
-package com.ga.commentapi.commentapi.controller;
+package com.ga.commentapi.controller;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.ga.commentapi.commentapi.model.Comment;
-import com.ga.commentapi.commentapi.service.CommentService;
+import com.ga.commentapi.model.Comment;
+import com.ga.commentapi.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/")
 public class CommentController {
 
     @Autowired

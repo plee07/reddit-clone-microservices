@@ -1,6 +1,6 @@
-package com.ga.commentapi.commentapi.repository;
+package com.ga.commentapi.repository;
 
-import com.ga.commentapi.commentapi.model.Comment;
+import com.ga.commentapi.model.Comment;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
