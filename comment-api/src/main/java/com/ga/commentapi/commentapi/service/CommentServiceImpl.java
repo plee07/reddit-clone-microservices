@@ -24,7 +24,7 @@ public class CommentServiceImpl implements CommentService {
     private RabbitTemplate rabbitTemplate;
 
     @Override
-    public commentModel createComment(Long postId, commentModel comment, String id, String username) {
+    public commentModel createComment(long postId, commentModel comment, String id, String username) {
 
         //confirm postid exists
 //        RestTemplate rt = new RestTemplate();
@@ -37,15 +37,17 @@ public class CommentServiceImpl implements CommentService {
 //        System.out.println("==================>" + result.getBody().toString());
         String message = "checkPostId:" + postId;
         System.out.println("Sending message: " + message);
-        String postIdcheck = (String) rabbitTemplate.convertSendAndReceive("checkPostId",message);
+        String postIdcheck = (String) rabbitTemplate.convertSendAndReceive("checkPostId", message);
         System.out.println("COMMEN SIDE " + postIdcheck);
-        if(!postIdcheck.equals("NOT_FOUND")){
-            comment.setPostId(postId);
-            comment.setUserId(Long.parseLong(id));
-            comment.setUsername(username);
-            comment.setUser(new UserBean(username));
-            return commentRepository.save(comment);
-        } else return null;
+            if (!postIdcheck.equals("NOT_FOUND")) {
+                comment.setPostId(postId);
+                comment.setUserId(Long.parseLong(id));
+                comment.setUsername(username);
+                comment.setUser(new UserBean(username));
+        return commentRepository.save(comment);}
+            else
+                return null;
+
     }
 
     @Override
@@ -74,14 +76,6 @@ public class CommentServiceImpl implements CommentService {
         return commentList;
     }
 
-    @Override
-    public Iterable<commentModel> getCommentsByUserId(String username, Long userId) {
-        Iterable<commentModel> commentList = commentRepository.findCommentByUserId(userId);
-        for(commentModel comment : commentList){
-            comment.setUser(new UserBean(comment.getUsername()));
-        }
-        return commentList;
-    }
 
     @Override
     public Iterable<commentModel> getCommentsByUsername(String username) {
