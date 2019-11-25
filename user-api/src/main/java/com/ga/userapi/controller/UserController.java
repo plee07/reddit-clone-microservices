@@ -3,7 +3,7 @@ package com.ga.userapi.controller;
 import com.ga.userapi.config.JwtUtil;
 import com.ga.userapi.model.JwtResponse;
 import com.ga.userapi.model.User;
-import com.ga.userapi.service.UserService;
+import com.ga.userapi.serviceTest.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

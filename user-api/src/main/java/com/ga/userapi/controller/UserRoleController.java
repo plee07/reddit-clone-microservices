@@ -1,7 +1,7 @@
 package com.ga.userapi.controller;
 
 import com.ga.userapi.model.UserRole;
-import com.ga.userapi.service.UserRoleService;
+import com.ga.userapi.serviceTest.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

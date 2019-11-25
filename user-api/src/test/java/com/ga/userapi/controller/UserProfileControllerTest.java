@@ -7,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.ga.userapi.model.UserProfile;
-import com.ga.userapi.service.UserProfileService;
+import com.ga.userapi.serviceTest.UserProfileService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

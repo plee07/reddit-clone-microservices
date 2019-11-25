@@ -1,4 +1,4 @@
-package com.ga.userapi.service;
+package com.ga.userapi.serviceTest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,8 +32,6 @@ public class UserServiceImpl implements UserService {
     @Qualifier("encoder")
     PasswordEncoder bCryptPasswordEncoder;
 
-    private ObjectMapper json = new ObjectMapper();
-
     @Override
     public String signup(User newUser){
         // check if user already exists
@@ -50,20 +48,22 @@ public class UserServiceImpl implements UserService {
             ur = roleRepository.save(newRole);
         }
         newUser.addRole(ur);
-        if(userRepository.save(newUser) != null){
-            return jwtUtil.generateToken(newUser);
-        }
-        return null;
+        userRepository.save(newUser);
+        return jwtUtil.generateToken(newUser);
+
     }
 
     @Override
     public String login(User user){
         User loggedInUser;
+
+        // allows user to login through either username or email
         if(user.getUsername() != null){
             loggedInUser = userRepository.findByUsername(user.getUsername());
         } else{
             loggedInUser = userRepository.findByEmail(user.getEmail());
         }
+
         if(loggedInUser != null && bCryptPasswordEncoder.matches(user.getPassword(), loggedInUser.getPassword())){
             return jwtUtil.generateToken(loggedInUser);
         }
@@ -75,8 +75,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @RabbitListener(queuesToDeclare = @Queue("getUserById"))
     public String getUser(String message) throws JsonProcessingException {
+        ObjectMapper json = new ObjectMapper();
         Long userId = Long.parseLong(message);
-        User user = userRepository.findById(userId).get();
+        User user = userRepository.findUserByUserId(userId);
         String userJson = json.writeValueAsString(user);
         return userJson;
     }

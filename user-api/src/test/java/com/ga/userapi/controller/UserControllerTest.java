@@ -1,8 +1,7 @@
 package com.ga.userapi.controller;
 import com.ga.userapi.config.JwtUtil;
-import com.ga.userapi.exception.IncorrectLoginException;
 import com.ga.userapi.model.User;
-import com.ga.userapi.service.UserService;
+import com.ga.userapi.serviceTest.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +14,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.util.NestedServletException;
 
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;

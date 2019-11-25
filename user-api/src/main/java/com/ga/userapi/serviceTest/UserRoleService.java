@@ -1,4 +1,4 @@
-package com.ga.userapi.service;
+package com.ga.userapi.serviceTest;
 
 import com.ga.userapi.model.UserRole;
 
