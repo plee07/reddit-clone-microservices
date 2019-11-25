@@ -3,6 +3,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.apache.tomcat.jni.User;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "posts")
@@ -13,6 +15,8 @@ public class Post {
     private Long postId;
 
     @Column
+    @NotBlank(message = "Title must be provided")
+//    @Size(min = 1, message = "Title cannot be empty")
     private String title;
 
     @Column

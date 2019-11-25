@@ -5,8 +5,15 @@ import com.ga.user.userapi.model.JwtResponse;
 import com.ga.user.userapi.model.User;
 import com.ga.user.userapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/")
@@ -18,23 +25,14 @@ public class UserController {
     @Autowired
     JwtUtil jwtUtil;
 
-    @GetMapping("/")
-    public String home(){
-        return "user home!";
-    }
-
-    @GetMapping("/hello")
-    public String test(){
-        return "Hello World!";
-    }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody User user) {
+    public ResponseEntity<?> signup(@Valid @RequestBody User user){
         return ResponseEntity.ok(new JwtResponse(userService.signup(user)));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User user) {
+    public ResponseEntity<?> login(@RequestBody User user){
         return ResponseEntity.ok(new JwtResponse(userService.login(user)));
     }
 

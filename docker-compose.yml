@@ -54,21 +54,6 @@ services:
      - POSTGRES_PASSWORD=password
      - POSTGRES_USER=postgres3
      - POSTGRES_DB=pgcomment
-  comment-api:
-    #image: maven:3.6.1-jdk-8
-    build: ./comment-api
-    ports:
-      - '8083:8083'
-    working_dir: /app
-    volumes:
-      - ./comment-api:/app
-    depends_on:
-      - eureka
-    command: 'mvn spring-boot:run'
-    environment:
-      - SPRING_PROFILES_ACTIVE=dev
-    links:
-      - rabbitmq
   user-api:
     #image: maven:3.6.1-jdk-8
     build: ./user-api
@@ -82,6 +67,8 @@ services:
     command: 'mvn spring-boot:run'
     environment:
       - SPRING_PROFILES_ACTIVE=dev
+    links:
+      - rabbitmq
   post-api:
     #image: maven:3.6.1-jdk-8
     build: ./post-api
@@ -97,3 +84,34 @@ services:
       - SPRING_PROFILES_ACTIVE=dev
     links:
       - rabbitmq
+  comment-api:
+    #image: maven:3.6.1-jdk-8
+    build: ./comment-api
+    ports:
+      - '8083:8083'
+    working_dir: /app
+    volumes:
+      - ./comment-api:/app
+    depends_on:
+      - eureka
+    command: 'mvn spring-boot:run'
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    links:
+      - rabbitmq
+  email-service:
+    #image: maven:3.6.1-jdk-8
+    build: ./email-service
+    ports:
+      - '8084:8084'
+    working_dir: /app
+    volumes:
+      - ./email-service:/app
+    depends_on:
+      - eureka
+    command: 'mvn spring-boot:run'
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+    links:
+      - rabbitmq
+
