@@ -1,0 +1,51 @@
+pipeline {
+    agent {
+        docker {
+            image 'maven:3-alpine'
+            args '-v /tmp/.m2:/tmp/.m2 -u root'
+
+        }
+    }
+    options {
+        skipStagesAfterUnstable()
+    }
+    stages {
+        stage('Build') {
+            steps {
+                dir("post-api"){
+                    sh "pwd"
+		            sh 'mvn -B -DskipTests clean package'
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                dir("post-api"){
+                    sh 'mvn test -Dspring.profiles.active=test'
+                }
+            }
+            post {
+                always {
+                    dir("post-api"){
+                        junit 'target/surefire-reports/*.xml'
+                    }
+                }
+            }
+        }
+        stage('Coverage') {
+            steps {
+                dir("post-api"){
+                    sh 'mvn cobertura:cobertura -Dcobertura.report.format=xml'    
+                }
+            }
+            post {
+                always {
+                  dir("post-api"){
+                      cobertura coberturaReportFile: 'target/site/cobertura/coverage.xml'
+                  }
+                }
+            }
+        }
+    }
+}
+
