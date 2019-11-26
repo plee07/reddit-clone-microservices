@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -66,6 +67,23 @@ public class UserControllerTest {
         System.out.println(result.getResponse().getContentAsString());
     }
 
+    @Test
+    public void BAD_signup_User_Success() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/signup")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(createUserInJson("test","tester", "tester"));
+
+//        when(userService.signup(any())).thenThrow(MethodArgumentNotValidException.class);
+
+        MvcResult result = mockMvc.perform(requestBuilder)
+                .andExpect(status().isBadRequest())
+//                .andExpect(content().json("{\"email\": \"Invalid email format\"}"))
+                .andReturn();
+//        throw new handleMethodArgumentNotValid();
+
+        System.out.println(result.getResponse().getContentAsString());
+    }
 
     @Test
     public void login_User_Success() throws Exception {
