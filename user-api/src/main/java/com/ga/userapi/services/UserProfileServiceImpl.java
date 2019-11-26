@@ -1,4 +1,4 @@
-package com.ga.userapi.serviceTest;
+package com.ga.userapi.services;
 import com.ga.userapi.model.User;
 import com.ga.userapi.model.UserProfile;
 import com.ga.userapi.repository.UserProfileRepository;
@@ -37,6 +37,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Override
     public UserProfile updateUserProfile(String username, UserProfile updateProfile) {
         Long profileId = getProfileIdByUsername(username);
+        System.out.println(profileId);
         if(profileId != -1L){
             UserProfile up = userProfileRepository.findUserProfileByProfileId(profileId);
             if(updateProfile.getAddress() != null) up.setAddress(updateProfile.getAddress());
@@ -44,13 +45,11 @@ public class UserProfileServiceImpl implements UserProfileService {
             if(updateProfile.getMobile() != null) up.setMobile(updateProfile.getMobile());
             return userProfileRepository.save(up);
         }
-        else {
-            return null;
-        }
+        return null;
     }
 
     // helper method to get profile id
-    private Long getProfileIdByUsername(String username){
+    public Long getProfileIdByUsername(String username){
         User user = userRepository.findByUsername(username);
         if(user != null) return user.getUserProfile().getProfileId();
         else return -1L;

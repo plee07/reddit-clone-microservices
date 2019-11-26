@@ -1,7 +1,7 @@
 package com.ga.userapi.controller;
 import com.ga.userapi.config.JwtUtil;
 import com.ga.userapi.model.User;
-import com.ga.userapi.serviceTest.UserService;
+import com.ga.userapi.services.UserService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

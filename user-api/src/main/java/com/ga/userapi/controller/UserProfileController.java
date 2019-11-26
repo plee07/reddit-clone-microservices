@@ -2,7 +2,7 @@ package com.ga.userapi.controller;
 
 
 import com.ga.userapi.model.UserProfile;
-import com.ga.userapi.serviceTest.UserProfileService;
+import com.ga.userapi.services.UserProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;

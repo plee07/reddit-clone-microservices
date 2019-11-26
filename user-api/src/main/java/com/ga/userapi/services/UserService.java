@@ -1,4 +1,4 @@
-package com.ga.userapi.serviceTest;
+package com.ga.userapi.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ga.userapi.model.User;

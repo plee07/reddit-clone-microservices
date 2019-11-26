@@ -2,7 +2,7 @@ package com.ga.userapi.controller;
 
 import com.ga.userapi.model.User;
 import com.ga.userapi.model.UserRole;
-import com.ga.userapi.serviceTest.UserRoleService;
+import com.ga.userapi.services.UserRoleService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
