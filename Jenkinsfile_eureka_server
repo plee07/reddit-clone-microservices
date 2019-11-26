@@ -1,0 +1,50 @@
+pipeline {
+    agent {
+        docker {
+            image 'maven:3-alpine'
+            args '-v /tmp/.m2:/tmp/.m2 -u root'
+
+        }
+    }
+    options {
+        skipStagesAfterUnstable()
+    }
+    stages {
+        stage('Build') {
+            steps {
+                dir("eureka-server"){
+                    sh "pwd"
+		            sh 'mvn -B -DskipTests clean package'
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                dir("eureka-server"){
+                    sh 'mvn test'
+                }
+            }
+            post {
+                always {
+                    dir("eureka-server"){
+                        junit 'target/surefire-reports/*.xml'
+                    }
+                }
+            }
+        }
+        stage('Coverage') {
+            steps {
+                dir("eureka-server"){
+                    sh 'mvn cobertura:cobertura -Dcobertura.report.format=xml'    
+                }
+            }
+            post {
+                always {
+                  dir("eureka-server"){
+                      cobertura coberturaReportFile: 'target/site/cobertura/coverage.xml'
+                  }
+                }
+            }
+        }
+    }
+}

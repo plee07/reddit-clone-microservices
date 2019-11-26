@@ -48,9 +48,4 @@ public class PostController {
         return postService.getPostsByUsername(username);
     }
 
-//    @GetMapping("/check/{postId}")
-//    public HttpStatus confirmId(@PathVariable Long postId){
-//        return postService.confirmId(postId);
-//    }
-
 }
