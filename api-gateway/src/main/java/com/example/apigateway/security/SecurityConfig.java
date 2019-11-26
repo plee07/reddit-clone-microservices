@@ -61,7 +61,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/users/login", "/user/signup", "/posts/list",
-                        "/comments/deleteBy/**", "/posts/check/**", "/comments/v2/api-docs").permitAll()
+                        "/comments/deleteBy/**", "/posts/check/**", "/comments/swagger-ui","/posts/swagger-ui","/swagger-ui").permitAll()
                 .antMatchers("/posts/**", "/users/profile").authenticated()
                 .and()
                 .httpBasic();

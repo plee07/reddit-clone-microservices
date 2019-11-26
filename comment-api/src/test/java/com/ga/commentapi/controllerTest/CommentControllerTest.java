@@ -1,8 +1,8 @@
 package com.ga.commentapi.controllerTest;
 
-import com.ga.commentapi.commentapi.controller.CommentController;
-import com.ga.commentapi.commentapi.model.commentModel;
-import com.ga.commentapi.commentapi.service.CommentServiceImpl;
+import com.ga.commentapi.controller.CommentController;
+import com.ga.commentapi.model.commentModel;
+import com.ga.commentapi.service.CommentServiceImpl;
 import org.apache.http.protocol.HTTP;
 import org.junit.Before;
 import org.junit.Test;
