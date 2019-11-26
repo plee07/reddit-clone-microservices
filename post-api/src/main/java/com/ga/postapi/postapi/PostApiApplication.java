@@ -8,11 +8,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableEurekaClient
 @RestController
 @EnableScheduling
+@EnableSwagger2
 public class PostApiApplication {
 
 	@RequestMapping("/")

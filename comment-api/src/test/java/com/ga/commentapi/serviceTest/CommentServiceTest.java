@@ -1,8 +1,8 @@
-package com.ga.commentapi.commentapi.serviceTest;
+package com.ga.commentapi.serviceTest;
 
-import com.ga.commentapi.commentapi.model.commentModel;
-import com.ga.commentapi.commentapi.repository.CommentRepository;
-import com.ga.commentapi.commentapi.service.CommentServiceImpl;
+import com.ga.commentapi.model.commentModel;
+import com.ga.commentapi.repository.CommentRepository;
+import com.ga.commentapi.service.CommentServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
