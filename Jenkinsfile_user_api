@@ -34,7 +34,7 @@ pipeline {
         }
         stage('Coverage') {
             steps {
-                dir("usr-api"){
+                dir("user-api"){
                     sh 'mvn cobertura:cobertura -Dcobertura.report.format=xml'    
                 }
             }
