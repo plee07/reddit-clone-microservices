@@ -68,6 +68,14 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+<<<<<<< HEAD
+=======
+
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+>>>>>>> dev-capstone
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>

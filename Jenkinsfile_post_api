@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                dir("user-api"){
+                dir("post-api"){
                     sh "pwd"
 		            sh 'mvn -B -DskipTests clean package'
                 }
@@ -20,13 +20,13 @@ pipeline {
         }
         stage('Test') {
             steps {
-                dir("user-api"){
+                dir("post-api"){
                     sh 'mvn test -Dspring.profiles.active=test'
                 }
             }
             post {
                 always {
-                    dir("user-api"){
+                    dir("post-api"){
                         junit 'target/surefire-reports/*.xml'
                     }
                 }
@@ -34,18 +34,16 @@ pipeline {
         }
         stage('Coverage') {
             steps {
-                dir("user-api){
-                    sh 'mvn clean package jacoco:report'
+                dir("post-api"){
+                    sh 'mvn cobertura:cobertura -Dcobertura.report.format=xml'    
                 }
-                
             }
             post {
                 always {
-                    dir("user-api"){
-                        publishCoverage adapters: [jacocoAdapter('target/site/jacoco/jacoco.xml')]
-                    }
-                    
-                } 
+                  dir("post-api"){
+                      cobertura coberturaReportFile: 'target/site/cobertura/coverage.xml'
+                  }
+                }
             }
         }
     }

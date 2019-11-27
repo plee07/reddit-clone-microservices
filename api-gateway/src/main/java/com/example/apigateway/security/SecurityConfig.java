@@ -60,7 +60,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/users/login", "/user/signup", "/posts/list", "/comments/deleteBy/**", "/posts/check/**").permitAll()
+                .antMatchers("/users/login", "/user/signup", "/posts/list",
+                        "/comments/deleteBy/**", "/posts/check/**", "/comments/swagger-ui","/posts/swagger-ui","/swagger-ui").permitAll()
                 .antMatchers("/posts/**", "/users/profile").authenticated()
                 .and()
                 .httpBasic();

@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String signup(User newUser){
+        System.out.println("DOES IT REACH HERE?");
         // check if user already exists
         if(userRepository.findByUsername(newUser.getUsername()) != null)
             throw new UserAlreadyExistsException("Username is taken!");
