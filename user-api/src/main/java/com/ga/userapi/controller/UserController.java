@@ -18,10 +18,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    JwtUtil jwtUtil;
-
-
     @PostMapping("/signup")
     @ApiOperation("User sign up")
     public ResponseEntity<?> signup(@Valid @RequestBody User user){
@@ -33,5 +29,4 @@ public class UserController {
     public ResponseEntity<?> login(@RequestBody User user){
         return ResponseEntity.ok(new JwtResponse(userService.login(user)));
     }
-
 }

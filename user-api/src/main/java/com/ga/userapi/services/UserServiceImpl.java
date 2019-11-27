@@ -33,8 +33,7 @@ public class UserServiceImpl implements UserService {
     PasswordEncoder bCryptPasswordEncoder;
 
     @Override
-    public String signup(User newUser){
-        System.out.println("DOES IT REACH HERE?");
+    public String signup(User newUser) throws UserAlreadyExistsException{
         // check if user already exists
         if(userRepository.findByUsername(newUser.getUsername()) != null)
             throw new UserAlreadyExistsException("Username is taken!");
@@ -55,7 +54,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String login(User user){
+    public String login(User user) throws IncorrectLoginException{
         User loggedInUser;
 
         // allows user to login through either username or email

@@ -1,5 +1,7 @@
 package com.ga.userapi.controller;
 import com.ga.userapi.config.JwtUtil;
+import com.ga.userapi.exception.GlobalExceptionHandler;
+import com.ga.userapi.exception.IncorrectLoginException;
 import com.ga.userapi.model.User;
 import com.ga.userapi.services.UserService;
 import org.junit.Before;
@@ -40,7 +42,9 @@ public class UserControllerTest {
 
     @Before
     public void init() {
-        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(userController)
+                .setControllerAdvice(GlobalExceptionHandler.class)
+                .build();
     }
 
     @Before
@@ -68,21 +72,28 @@ public class UserControllerTest {
     }
 
     @Test
-    public void BAD_signup_User_Success() throws Exception {
+    public void BAD_signup_User_ERROR() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(createUserInJson("test","tester", "tester"));
-
-//        when(userService.signup(any())).thenThrow(MethodArgumentNotValidException.class);
-
         MvcResult result = mockMvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest())
-//                .andExpect(content().json("{\"email\": \"Invalid email format\"}"))
                 .andReturn();
-//        throw new handleMethodArgumentNotValid();
+    }
 
-        System.out.println(result.getResponse().getContentAsString());
+    @Test
+    public void BAD_login_User_ERROR() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(createUserInJson("test","tester", "tester@test.com"));
+
+        when(userService.login(any())).thenThrow(IncorrectLoginException.class);
+
+        MvcResult result = mockMvc.perform(requestBuilder)
+                .andExpect(status().isUnauthorized())
+                .andReturn();
     }
 
     @Test

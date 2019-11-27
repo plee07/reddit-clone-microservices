@@ -35,10 +35,4 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorResponse error = new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), err.getMessage());
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
-//
-//    @ExceptionHandler(UserAlreadyExistsException.class)
-//    public ResponseEntity<ErrorResponse> handleLoginException(UserAlreadyExistsException err){
-//        ErrorResponse error = new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), err.getMessage());
-//        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
-//    }
 }
