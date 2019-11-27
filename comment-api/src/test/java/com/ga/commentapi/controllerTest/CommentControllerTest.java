@@ -32,8 +32,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(MockitoJUnitRunner.class)
 public class CommentControllerTest {
     private MockMvc mockMvc;
-    private commentModel fakeComment;
-
 
     @InjectMocks
     CommentController commentController;
@@ -48,11 +46,11 @@ public class CommentControllerTest {
     public void init() {
         mockMvc = MockMvcBuilders.standaloneSetup(commentController).build();
 
-            fakeComment = new commentModel();
-            fakeComment.setCommentId(1L);
-            fakeComment.setPostId(1L);
-            fakeComment.setText("Lorem Ipsum");
-            fakeComment.setUserId(1L);
+            commentModel = new commentModel();
+            commentModel.setCommentId(1L);
+            commentModel.setPostId(1L);
+            commentModel.setText("Lorem Ipsum");
+            commentModel.setUserId(1L);
         }
 
 

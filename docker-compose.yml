@@ -6,6 +6,26 @@ services:
       ports:
         - "15672:15672"
         - "5672:5672"
+      
+  elastic:
+      image: "docker.elastic.co/elasticsearch/elasticsearch:7.4.2"
+      container_name: elastic
+      ports:
+        - "9200:9200"
+      environment:
+        - node.name=elastic
+        - cluster.name=myComment
+        - discovery.seed_hosts=eureka
+        - cluster.initial_master_nodes=elastic,eureka
+    
+  kibana:
+      image: "docker.elastic.co/kibana/kibana:7.4.2"
+      ports:
+        - "5601:5601"
+      environment:
+        - ELASTICSEARCH_HOSTS=http://198.168.99.100:5601/
+
+  
   eureka:
     #image: maven:3.6.1-jdk-8
     build: ./eureka-server
@@ -99,6 +119,7 @@ services:
       - SPRING_PROFILES_ACTIVE=dev
     links:
       - rabbitmq
+  
   email-service:
     #image: maven:3.6.1-jdk-8
     build: ./email-service
@@ -114,4 +135,4 @@ services:
       - SPRING_PROFILES_ACTIVE=dev
     links:
       - rabbitmq
-
+  

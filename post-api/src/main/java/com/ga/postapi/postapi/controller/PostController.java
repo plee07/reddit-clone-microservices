@@ -45,13 +45,6 @@ public class PostController {
         return postService.deletePost(postId);
     }
 
-    @GetMapping("/user/{userId}")
-    @RestResource(path = "/user/{userId}")
-    public Iterable<Post> getPostByUserId(@Param("userId, username") @PathVariable Long userId, @RequestHeader("username") String username)
-    {
-        return postService.getPostByUserId(username,userId);
-    }
-
     @GetMapping("/user")
     @RestResource(path = "/user")
     @ApiOperation("Gets a list of post written by that user")
