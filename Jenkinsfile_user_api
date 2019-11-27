@@ -37,14 +37,12 @@ pipeline {
                 dir("user-api){
                     sh 'mvn clean package jacoco:report'
                 }
-                
             }
             post {
                 always {
                     dir("user-api"){
                         publishCoverage adapters: [jacocoAdapter('target/site/jacoco/jacoco.xml')]
                     }
-                    
                 } 
             }
         }
