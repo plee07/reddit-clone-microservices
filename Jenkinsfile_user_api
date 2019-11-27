@@ -34,7 +34,7 @@ pipeline {
         }
         stage('Coverage') {
             steps {
-                dir("user-api){
+                dir("user-api"){
                     sh 'mvn clean package jacoco:report'
                 }
             }
