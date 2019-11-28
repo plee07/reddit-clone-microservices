@@ -16,7 +16,6 @@ public class Post {
 
     @Column
     @NotBlank(message = "Title must be provided")
-//    @Size(min = 1, message = "Title cannot be empty")
     private String title;
 
     @Column

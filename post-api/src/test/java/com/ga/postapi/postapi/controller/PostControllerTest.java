@@ -1,15 +1,13 @@
 package com.ga.postapi.postapi.controller;
 
-import com.ga.postapi.postapi.controller.PostController;
+import com.ga.postapi.postapi.exception.GlobalExceptionHandler;
 import com.ga.postapi.postapi.model.Post;
 import com.ga.postapi.postapi.service.PostServiceImpl;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.Mock;;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -17,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.util.ArrayList;
 
@@ -43,7 +40,9 @@ public class PostControllerTest {
 
     @Before
     public void init() {
-        mockMvc = MockMvcBuilders.standaloneSetup(postController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(postController)
+                .setControllerAdvice(GlobalExceptionHandler.class)
+                .build();
 
     }
 
@@ -75,7 +74,7 @@ public class PostControllerTest {
     }
 
     @Test
-    public void getPostByUsername_Comment_Success() throws Exception {
+    public void getPostByUsername_Post_Success() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get("/user")
                 .header("username", "money")
@@ -87,6 +86,21 @@ public class PostControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json("[]"));
     }
+
+    @Test
+    public void getPostByUserId_Post_Success() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .get("/user/{userId}", 1)
+                .header("username", "money")
+                .accept(MediaType.APPLICATION_JSON);
+
+        when(postService.getPostByUserId(any())).thenReturn(new ArrayList<Post>());
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(content().json("[]"));
+    }
+
 
     @Test
     public void createPost_Post_Success() throws Exception {
@@ -108,6 +122,23 @@ public class PostControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("title")));
     }
+
+    @Test
+    public void createEmptyPost_Post_ERROR() throws Exception {
+//        Post fakeSavedPost = new Post();
+//        fakeSavedPost.setDescription("this is a description");
+//        fakeSavedPost.setUserId(1L);
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/post")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"title\":null,\"description\":\"bar\",\"userId\":\"1\"}");
+
+//        when(postService.createPost(any(), anyString(),anyString())).thenReturn(fakeSavedPost);
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isBadRequest())
+                .andReturn();
     }
+}
 
 

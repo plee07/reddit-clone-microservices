@@ -7,10 +7,7 @@ public class UserBean {
         this.username = username;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
+    public UserBean(){};
     public void setUsername(String username) {
         this.username = username;
     }

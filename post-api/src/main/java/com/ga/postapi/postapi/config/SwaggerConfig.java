@@ -17,17 +17,12 @@ public class SwaggerConfig {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.ga.postapi.postapi.controller"))
-                .paths(PathSelectors.any())
-                .build()
-                .apiInfo(apiEndPointsInfo());
+                .select().apis(RequestHandlerSelectors.basePackage("com.ga.postapi.postapi.controller"))
+                .paths(PathSelectors.any()).build().apiInfo(apiEndPointsInfo());
     }
 
     private ApiInfo apiEndPointsInfo() {
         return new ApiInfoBuilder().title("Post REST API")
-                .description("Post API")
-                .version("2.0.0")
-                .build();
+                .description("Post API").version("2.0.0").build();
     }
 }
