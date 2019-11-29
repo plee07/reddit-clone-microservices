@@ -33,7 +33,7 @@ public class PostController {
     @PostMapping("/post")
     @RestResource(path = "/post")
     @ApiOperation("This creates your post")
-    public Post createPost(@Valid @Param("post, username, userId") @RequestBody Post post, @RequestHeader("username") String username, @RequestHeader("userId") String id) {
+    public Post createPost(@Param("post, username, userId") @Valid @RequestBody Post post, @RequestHeader("username") String username, @RequestHeader("userId") String id) {
         return postService.createPost(post, id, username);
     }
 

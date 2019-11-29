@@ -74,20 +74,22 @@ public class CommentControllerTest {
                 .andExpect(content().json("[]"));
     }
 
-//    @Test
-//    public void createComment_Comment_success() throws Exception {
-//        RequestBuilder requestBuilder = MockMvcRequestBuilders
-//                .post("/post/1")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .header("Authorization", "123456token")
-//                .content("{\"text\":\"foobar\"}");
-//
-//        when(commentService.createComment(anyLong(), any(), anyString(),anyString())).thenReturn(new commentModel());
-//
-//        mockMvc.perform(requestBuilder)
-//                .andExpect(status().isOk())
-//                .andExpect(content().json("{}"));
-//    }
+    @Test
+    public void createComment_Comment_success() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/post/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "123456token")
+                .header("username" , "mike")
+                .header("userId", 1L)
+                .content("{\"text\":\"foobar\"}");
+
+        when(commentService.createComment(anyLong(), any(), anyString(),anyString())).thenReturn(new commentModel());
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andExpect(content().json("{}"));
+    }
 
 
     @Test

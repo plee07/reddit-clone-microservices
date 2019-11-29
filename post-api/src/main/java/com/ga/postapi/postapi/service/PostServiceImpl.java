@@ -53,12 +53,6 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Iterable<Post> getPostByUserId(String username, Long userId) {
-
-        return postRepository.findPostsByUserId(userId);
-    }
-
-    @Override
     public Iterable<Post> getPostsByUsername(String username) {
         Iterable<Post> postList = postRepository.findPostsByUsername(username);
         for(Post post : postList){

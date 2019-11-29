@@ -11,6 +11,8 @@ import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/")
 public class CommentController {
@@ -25,7 +27,7 @@ public class CommentController {
     @PostMapping("/post/{postId}")
     @RestResource(path = "/post/{postId}")
     @ApiOperation("Creates your comments")
-    public commentModel createComment(@Param("postId, comment, userid, username")@PathVariable long postId, @RequestBody commentModel comment, @RequestHeader("username") String username, @RequestHeader("userId") String id) throws JsonProcessingException {
+    public commentModel createComment(@Param("postId, comment, userid, username")@PathVariable long postId, @Valid @RequestBody commentModel comment, @RequestHeader("username") String username, @RequestHeader("userId") String id) throws JsonProcessingException {
         return commentService.createComment(postId, comment, id, username);
     }
 
