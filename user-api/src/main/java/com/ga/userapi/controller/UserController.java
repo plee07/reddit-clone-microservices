@@ -7,6 +7,7 @@ import com.ga.userapi.services.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,7 +21,7 @@ public class UserController {
 
     @PostMapping("/signup")
     @ApiOperation("User sign up")
-    public ResponseEntity<?> signup(@Valid @RequestBody User user){
+    public ResponseEntity<?> signup(@Valid @RequestBody User user) throws Exception {
         return ResponseEntity.ok(new JwtResponse(userService.signup(user)));
     }
 

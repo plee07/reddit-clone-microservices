@@ -1,11 +1,11 @@
 package com.ga.commentapi.exception;
 
-public class errorResponse {
+public class ErrorResponse {
 
     private int status;
     private String message;
 
-    public errorResponse(int status, String message) {
+    public ErrorResponse(int status, String message) {
         this.status = status;
         this.message = message;
     }

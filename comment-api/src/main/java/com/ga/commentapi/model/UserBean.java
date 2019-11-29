@@ -3,9 +3,7 @@ package com.ga.commentapi.model;
 public class UserBean {
     private String username;
 
-    public UserBean(String username){
-        this.username = username;
-    }
+    public UserBean(){};
 
     public String getUsername() {
         return username;
