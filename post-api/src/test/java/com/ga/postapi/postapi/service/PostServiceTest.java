@@ -3,6 +3,7 @@ package com.ga.postapi.postapi.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ga.postapi.postapi.model.Post;
+import com.ga.postapi.postapi.model.UserBean;
 import com.ga.postapi.postapi.repository.PostRepository;
 import org.junit.Assert;
 import org.junit.Before;
@@ -102,6 +103,15 @@ public class PostServiceTest {
         String expected = json.writeValueAsString(mockPost);
         String actual = postService.getPost("1");
         Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void UserBean_Model_Test(){
+        UserBean ub = new UserBean();
+        ub.setUsername("testUser");
+        String ubTest = ub.getUsername();
+        Assert.assertEquals(ubTest, ub.getUsername());
+
     }
 
 }
