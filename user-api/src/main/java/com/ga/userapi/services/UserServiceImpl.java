@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
             return jwtUtil.generateToken(loggedInUser);
         }
         else {
-            logger.info("Incorrect Login Credentials: LOG!");
+            logger.error("Incorrect Login Credentials: LOG!");
             throw new IncorrectLoginException("Incorrect Login Credentials");
         }
     }
