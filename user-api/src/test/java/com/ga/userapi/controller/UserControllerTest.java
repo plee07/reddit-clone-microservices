@@ -1,6 +1,7 @@
 package com.ga.userapi.controller;
 import com.ga.userapi.config.JwtUtil;
 import com.ga.userapi.exception.GlobalExceptionHandler;
+import com.ga.userapi.exception.IncorrectLoginException;
 import com.ga.userapi.model.User;
 import com.ga.userapi.services.UserService;
 import org.junit.Before;
@@ -15,7 +16,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -31,7 +31,7 @@ public class UserControllerTest {
     private User user;
 
     @InjectMocks
-    userController userController;
+    UserController userController;
 
     @InjectMocks
     GlobalExceptionHandler globalExceptionHandler;
@@ -44,7 +44,9 @@ public class UserControllerTest {
 
     @Before
     public void init() {
-        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(userController)
+                .setControllerAdvice(GlobalExceptionHandler.class)
+                .build();
     }
 
     @Before
@@ -61,7 +63,7 @@ public class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(createUserInJson("test","tester", "tester@tester.com"));
 
-        //when(userService.signup(any())).thenReturn("1234");
+        when(userService.signup(any())).thenReturn("1234");
 
         MvcResult result = mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())
@@ -70,7 +72,7 @@ public class UserControllerTest {
 
         System.out.println(result.getResponse().getContentAsString());
     }
-    @Test()
+    @Test
     public void BAD_signup_User_Success() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/signup")
@@ -87,6 +89,30 @@ public class UserControllerTest {
         System.out.println(result.getResponse().getContentAsString());
     }
 
+    @Test
+    public void BAD_signup_User_ERROR() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/signup")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(createUserInJson("test","tester", "tester"));
+        MvcResult result = mockMvc.perform(requestBuilder)
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    public void BAD_login_User_ERROR() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(createUserInJson("test","tester", "tester@test.com"));
+
+        when(userService.login(any())).thenThrow(IncorrectLoginException.class);
+
+        MvcResult result = mockMvc.perform(requestBuilder)
+                .andExpect(status().isUnauthorized())
+                .andReturn();
+    }
 
     @Test
     public void login_User_Success() throws Exception {

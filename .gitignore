@@ -1,0 +1,11 @@
+# log files
+*.log
+
+# target files
+*/target/*
+
+# docker-compose file
+docker-compose.yml
+
+# any .gz files from logging
+*.gz

@@ -85,9 +85,5 @@ public class RabbitmqTest {
         assertThat(reciever.getCounter()).isEqualTo(2);
     }
 
-    @Test
-    public void createComment_CommentCreated_Success()
-    {
-        when(rabbitTemplate.convertSendAndReceive("TestQueue",message)).thenReturn("1");
-    }
+   
 }

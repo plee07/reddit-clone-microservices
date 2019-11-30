@@ -12,7 +12,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                dir("comment-api"){
+                dir("eureka-server"){
                     sh "pwd"
 		            sh 'mvn -B -DskipTests clean package'
                 }
@@ -20,13 +20,13 @@ pipeline {
         }
         stage('Test') {
             steps {
-                dir("comment-api"){
-                    sh 'mvn test -Dspring.profiles.active=test'
+                dir("eureka-server"){
+                    sh 'mvn test'
                 }
             }
             post {
                 always {
-                    dir("comment-api"){
+                    dir("eureka-server"){
                         junit 'target/surefire-reports/*.xml'
                     }
                 }
@@ -34,18 +34,17 @@ pipeline {
         }
         stage('Coverage') {
             steps {
-                dir("comment-api"){
-                    sh 'mvn clean package jacoco:report'
+                dir("eureka-server"){
+                    sh 'mvn cobertura:cobertura -Dcobertura.report.format=xml'    
                 }
             }
             post {
                 always {
-                    dir("comment-api"){
-                        publishCoverage adapters: [jacocoAdapter('target/site/jacoco/jacoco.xml')]
-                    }
-                } 
+                  dir("eureka-server"){
+                      cobertura coberturaReportFile: 'target/site/cobertura/coverage.xml'
+                  }
+                }
             }
         }
     }
 }
-

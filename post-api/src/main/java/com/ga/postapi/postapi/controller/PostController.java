@@ -17,11 +17,6 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-//    @GetMapping("/test")
-//    public String test(@RequestHeader("Authorization") String username){
-//        return username;
-//    }
-
     @GetMapping("/list")
     @RestResource(path = "/list")
     @ApiOperation("This returns a list of post")
@@ -45,6 +40,13 @@ public class PostController {
         return postService.deletePost(postId);
     }
 
+    @GetMapping("/user/{userId}")
+    @RestResource(path = "/user/{userId}")
+    public Iterable<Post> getPostByUserId(@PathVariable Long userId)
+    {
+        return postService.getPostByUserId(userId);
+    }
+
     @GetMapping("/user")
     @RestResource(path = "/user")
     @ApiOperation("Gets a list of post written by that user")
@@ -52,10 +54,5 @@ public class PostController {
     {
         return postService.getPostsByUsername(username);
     }
-
-//    @GetMapping("/check/{postId}")
-//    public HttpStatus confirmId(@PathVariable Long postId){
-//        return postService.confirmId(postId);
-//    }
 
 }

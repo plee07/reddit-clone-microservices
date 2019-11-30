@@ -2,6 +2,7 @@ version: '3'
 
 services:
   rabbitmq:
+<<<<<<< HEAD
       image: "rabbitmq:management"
       ports:
         - "15672:15672"
@@ -26,6 +27,12 @@ services:
       links:
         - elasticsearch
   
+=======
+    image: "rabbitmq:management"
+    ports:
+      - "15672:15672"
+      - "5672:5672"  
+>>>>>>> dev-capstone
   eureka:
     #image: maven:3.6.1-jdk-8
     build: ./eureka-server

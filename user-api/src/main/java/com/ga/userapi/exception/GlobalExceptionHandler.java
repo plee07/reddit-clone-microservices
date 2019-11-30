@@ -21,10 +21,7 @@ import java.util.Map;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
-    @ResponseStatus
-    @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        System.out.println("Reach");
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
@@ -39,10 +36,4 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         ErrorResponse error = new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), err.getMessage());
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
-//
-//    @ExceptionHandler(UserAlreadyExistsException.class)
-//    public ResponseEntity<ErrorResponse> handleLoginException(UserAlreadyExistsException err){
-//        ErrorResponse error = new ErrorResponse(HttpStatus.UNAUTHORIZED.value(), err.getMessage());
-//        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
-//    }
 }

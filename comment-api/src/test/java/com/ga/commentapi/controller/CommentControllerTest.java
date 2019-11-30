@@ -1,9 +1,9 @@
-package com.ga.commentapi.controllerTest;
+package com.ga.commentapi.controller;
 
-import com.ga.commentapi.controller.CommentController;
-import com.ga.commentapi.model.commentModel;
+import com.ga.commentapi.exception.GlobalExceptionHandler;
+import com.ga.commentapi.exception.PostNotFoundException;
+import com.ga.commentapi.model.CommentModel;
 import com.ga.commentapi.service.CommentServiceImpl;
-import org.apache.http.protocol.HTTP;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 //import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -37,28 +36,23 @@ public class CommentControllerTest {
     CommentController commentController;
 
     @InjectMocks
-    commentModel commentModel;
+    CommentModel commentModel;
 
     @Mock
     CommentServiceImpl commentService;
 
     @Before
     public void init() {
-        mockMvc = MockMvcBuilders.standaloneSetup(commentController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(commentController)
+                .setControllerAdvice(GlobalExceptionHandler.class)
+                .build();
 
-            commentModel = new commentModel();
+            commentModel = new CommentModel();
             commentModel.setCommentId(1L);
             commentModel.setPostId(1L);
             commentModel.setText("Lorem Ipsum");
             commentModel.setUserId(1L);
-        }
-
-
-//    @Before
-//    public void initializeCommentController() {
-//        this.commentController = new CommentController();
-//        commentController.setUserProfileService(new CommentServiceStub());
-//    }
+    }
 
     @Test
     public void getCommentsByPostId_Comment_Success() throws Exception {
@@ -67,7 +61,7 @@ public class CommentControllerTest {
                 .header("Authorization", "username")
                 .accept(MediaType.APPLICATION_JSON);
 
-        when(commentService.getCommentsByPostId(anyLong())).thenReturn(new ArrayList<commentModel>());
+        when(commentService.getCommentsByPostId(anyLong())).thenReturn(new ArrayList<CommentModel>());
 
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())
@@ -77,18 +71,53 @@ public class CommentControllerTest {
     @Test
     public void createComment_Comment_success() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .post("/post/1")
+                .post("/post/{userid}",1)
                 .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", "123456token")
-                .header("username" , "mike")
-                .header("userId", 1L)
-                .content("{\"text\":\"foobar\"}");
+                .header("username","mom")
+                .header("userId",1L)
+                .content("{\n" +
+                        "\t\"text\": \"I DONT KNOW\",\n" +
+                        "\t\"notifyOP\": false\n" +
+                        "}");
 
-        when(commentService.createComment(anyLong(), any(), anyString(),anyString())).thenReturn(new commentModel());
+        when(commentService.createComment(anyLong(), any(), anyString(),anyString())).thenReturn(new CommentModel());
 
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())
                 .andExpect(content().json("{}"));
+    }
+
+    @Test
+    public void createComment_Comment_FAILURE() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/post/{userid}",1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("username","mom")
+                .header("userId",1L)
+                .content("{\"text\": null}");
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isBadRequest())
+                .andReturn();
+    }
+
+    @Test
+    public void createComment_Comment_POSTNOTFOUND() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/post/{userid}",1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("username","mom")
+                .header("userId",1L)
+                .content("{\n" +
+                        "\t\"text\": \"I DONT KNOW\",\n" +
+                        "\t\"notifyOP\": false\n" +
+                        "}");
+
+        when(commentService.createComment(anyLong(), any(), anyString(),anyString())).thenThrow(PostNotFoundException.class);
+
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isUnauthorized())
+                .andReturn();
     }
 
 
@@ -96,7 +125,8 @@ public class CommentControllerTest {
     public void deleteComment_Comment_Success() throws Exception {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .delete("/1")
-                .header("Authorization", "faketokten12345")
+                .header("username","mom")
+                .header("userId",1L)
                 .accept(MediaType.APPLICATION_JSON);
 
         when(commentService.deleteComment(anyLong())).thenReturn(HttpStatus.OK);
@@ -112,7 +142,7 @@ public class CommentControllerTest {
                 .header("username", "money")
                 .accept(MediaType.APPLICATION_JSON);
 
-        when(commentService.getCommentsByUsername(anyString())).thenReturn(new ArrayList<commentModel>());
+        when(commentService.getCommentsByUsername(anyString())).thenReturn(new ArrayList<CommentModel>());
 
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isOk())

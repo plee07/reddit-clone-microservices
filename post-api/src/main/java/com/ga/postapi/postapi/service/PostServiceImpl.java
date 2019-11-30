@@ -30,7 +30,10 @@ public class PostServiceImpl implements PostService {
 
         post.setUserId(Long.parseLong(id));
         post.setUsername(username);
-        post.setUser(new UserBean(username));
+        UserBean newUser = new UserBean();
+        newUser.setUsername(username);
+
+        post.setUser(newUser);
         return postRepository.save(post);
     }
 
@@ -53,6 +56,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public Iterable<Post> getPostByUserId(Long userId) {
+
+        return postRepository.findPostsByUserId(userId);
+    }
+
+    @Override
     public Iterable<Post> getPostsByUsername(String username) {
         Iterable<Post> postList = postRepository.findPostsByUsername(username);
         for(Post post : postList){
@@ -67,8 +76,7 @@ public class PostServiceImpl implements PostService {
         Long postId = Long.parseLong(message.split(":")[1]);
         Post post;
         try{
-            post = postRepository.findById(postId).get();
-            if(post == null) System.out.println("THIS IS NULL!");
+            post = postRepository.findPostByPostId(postId);
         } catch (Exception e){
             return "NOT_FOUND";
         }
@@ -79,7 +87,7 @@ public class PostServiceImpl implements PostService {
     @RabbitListener(queuesToDeclare = @Queue("getPostById"))
     public String getPost(String message) throws JsonProcessingException {
         Long postId = Long.parseLong(message);
-        Post post = postRepository.findById(postId).get();
+        Post post = postRepository.findPostByPostId(postId);
         String postJson = json.writeValueAsString(post);
         return postJson;
     }

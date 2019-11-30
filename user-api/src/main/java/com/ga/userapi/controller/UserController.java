@@ -14,14 +14,10 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/")
-public class userController {
+public class UserController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    JwtUtil jwtUtil;
-
 
     @PostMapping("/signup")
     @ApiOperation("User sign up")
@@ -34,5 +30,4 @@ public class userController {
     public ResponseEntity<?> login(@RequestBody User user){
         return ResponseEntity.ok(new JwtResponse(userService.login(user)));
     }
-
 }

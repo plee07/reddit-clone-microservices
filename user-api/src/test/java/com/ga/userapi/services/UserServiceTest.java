@@ -3,6 +3,7 @@ package com.ga.userapi.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ga.userapi.config.JwtUtil;
+import com.ga.userapi.exception.GlobalExceptionHandler;
 import com.ga.userapi.exception.IncorrectLoginException;
 import com.ga.userapi.exception.UserAlreadyExistsException;
 import com.ga.userapi.model.User;
@@ -17,12 +18,15 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ContextConfiguration;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
+@ContextConfiguration(classes = {
+        GlobalExceptionHandler.class})
 public class UserServiceTest {
 
     private User user;

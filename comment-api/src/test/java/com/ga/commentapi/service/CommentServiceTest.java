@@ -1,8 +1,10 @@
-package com.ga.commentapi.serviceTest;
+package com.ga.commentapi.service;
 
-import com.ga.commentapi.model.commentModel;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.ga.commentapi.exception.PostNotFoundException;
+import com.ga.commentapi.model.CommentModel;
+import com.ga.commentapi.model.UserBean;
 import com.ga.commentapi.repository.CommentRepository;
-import com.ga.commentapi.service.CommentServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,25 +15,27 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
+import static junit.framework.TestCase.assertNull;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.Silent.class)
 public class CommentServiceTest {
-    private List<commentModel> comments;
-    private Iterable<commentModel>empty = new ArrayList<>();
+    private List<CommentModel> comments;
+    private Iterable<CommentModel>empty = new ArrayList<>();
 
 
     @InjectMocks
     CommentServiceImpl commentService;
 
     @InjectMocks
-    commentModel comment;
+    CommentModel comment;
 
     @Mock
     RabbitTemplate rabbitTemplate;
@@ -48,7 +52,7 @@ public class CommentServiceTest {
         comment.setUserId(1L);
         comment.setUsername("mike");
 
-        comments = new ArrayList<commentModel>();
+        comments = new ArrayList<CommentModel>();
         comments.add(comment);
 
     }
@@ -62,10 +66,16 @@ public class CommentServiceTest {
     }
 
     @Test
+    public void deleteComment_OK_SUCCESS(){
+        HttpStatus test = commentService.deleteComment(1L);
+        assertEquals(test.value(), HttpStatus.OK.value());
+    }
+
+    @Test
     public void getCommentsByPostId_CommentList_Success()
     {
         when(commentRepository.findCommentByPostId(anyLong())).thenReturn(comments);
-        Iterable<commentModel> postComments = commentService.getCommentsByPostId(comment.getPostId());
+        Iterable<CommentModel> postComments = commentService.getCommentsByPostId(comment.getPostId());
         assertEquals(postComments,comments);
     }
 
@@ -73,8 +83,25 @@ public class CommentServiceTest {
     public void getCommentsByUsername_CommentList_Success()
     {
         when(commentRepository.findCommentsByUsername(anyString())).thenReturn(comments);
-        Iterable<commentModel> myComments = commentService.getCommentsByUsername(comment.getUsername());
+        Iterable<CommentModel> myComments = commentService.getCommentsByUsername(comment.getUsername());
         assertEquals(myComments,comments);
+    }
+
+    @Test
+    public void createComment_CommentModel_SUCCESS() throws JsonProcessingException {
+        comment.setNotifyOP(true);
+        when(rabbitTemplate.convertSendAndReceive(anyString(),anyString())).thenReturn("OK");
+        when(commentRepository.save(any())).thenReturn(comment);
+
+        CommentModel testComment = commentService.createComment(comment.getPostId(), comment, "1", "user");
+
+        assertEquals(testComment.getText(), comment.getText());
+    }
+
+    @Test(expected = PostNotFoundException.class)
+    public void createComment__POST_NOT_FOUND_CommentModel_FAILURE() throws JsonProcessingException, PostNotFoundException {
+        when(rabbitTemplate.convertSendAndReceive(anyString(),anyString())).thenReturn("NOT_FOUND");
+        CommentModel testComment = commentService.createComment(comment.getPostId(), comment, "1", "user");
     }
 
 }

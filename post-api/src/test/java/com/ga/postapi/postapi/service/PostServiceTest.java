@@ -1,18 +1,18 @@
-package com.ga.postapi.postapi.serviceTest;
+package com.ga.postapi.postapi.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ga.postapi.postapi.model.Post;
+import com.ga.postapi.postapi.model.UserBean;
 import com.ga.postapi.postapi.repository.PostRepository;
-import com.ga.postapi.postapi.service.PostServiceImpl;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -21,19 +21,20 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
+
 @RunWith(SpringRunner.class)
 public class PostServiceTest {
 
     private Post mockPost = new Post();
     private List<Post> postList = new ArrayList<>();
-
+    private ObjectMapper json = new ObjectMapper();
     @Mock
     PostRepository postRepository;
 
     @InjectMocks
     PostServiceImpl postService;
 
-    @InjectMocks
+    @Mock
     RabbitTemplate rabbitTemplate;
 
     @Before
@@ -93,5 +94,43 @@ public class PostServiceTest {
         when(postRepository.findPostByPostId(anyLong())).thenReturn(mockPost);
         String foundpost = postService.getPost("1");
         Assert.assertNotNull(foundpost);
+    }
+
+    public void deletePost_HTTPSTATUS_SUCCESS(){
+        when(rabbitTemplate.convertSendAndReceive(anyString(),any(Class.class))).thenReturn("OK");
+        HttpStatus test = postService.deletePost(1L);
+        Assert.assertEquals(HttpStatus.OK.value(), test.value());
+    }
+
+    @Test
+    public void getPostByUserId_PostList_SUCCESS(){
+        when(postRepository.findPostsByUserId(any())).thenReturn(new ArrayList<Post>());
+        Iterable<Post> test = postService.getPostByUserId(1L);
+        Assert.assertNotNull(test);
+    }
+
+    @Test
+    public void confirmId_String_SUCCESS() throws JsonProcessingException {
+        when(postRepository.findPostByPostId(any())).thenReturn(mockPost);
+        String postId = postService.confirmId("Message:1");
+        Assert.assertNotEquals("NOT_FOUND", postId);
+    }
+
+    @Test
+    public void getPost_String_SUCCESS() throws JsonProcessingException {
+        when(postRepository.findPostByPostId(any())).thenReturn(mockPost);
+
+        String expected = json.writeValueAsString(mockPost);
+        String actual = postService.getPost("1");
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    public void UserBean_Model_Test(){
+        UserBean ub = new UserBean();
+        ub.setUsername("testUser");
+        String ubTest = ub.getUsername();
+        Assert.assertEquals(ubTest, ub.getUsername());
+
     }
 }

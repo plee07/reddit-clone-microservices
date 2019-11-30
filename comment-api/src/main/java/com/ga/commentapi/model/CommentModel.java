@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "comments")
-public class commentModel {
+public class CommentModel {
     /**
      * This class creates the table for our comment service.
      * Comments are found through {@link com.ga.commentapi.repository.CommentRepository}
@@ -30,7 +30,6 @@ public class commentModel {
 
     @Column
     @NotBlank(message = "Text must be provided")
-    @Size(min = 1 , message = "comments can't be null")
     /**
      * Creates the column "text" in our comments table with type String.
      */
@@ -65,7 +64,7 @@ public class commentModel {
     /**
      * Our Default constructor
      */
-    public commentModel(){}
+    public CommentModel(){}
 
     /**
      * All of our getters and setters
