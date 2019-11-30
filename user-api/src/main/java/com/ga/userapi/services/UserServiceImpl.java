@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -31,6 +34,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     @Qualifier("encoder")
     PasswordEncoder bCryptPasswordEncoder;
+
+    private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class.getName());
 
     @Override
     public String signup(User newUser) throws UserAlreadyExistsException{
@@ -68,6 +73,7 @@ public class UserServiceImpl implements UserService {
             return jwtUtil.generateToken(loggedInUser);
         }
         else {
+            logger.error("Incorrect Login Credentials: LOG!");
             throw new IncorrectLoginException("Incorrect Login Credentials");
         }
     }
