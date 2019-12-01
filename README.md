@@ -43,7 +43,7 @@
 - Post to Comment: Delete Post will call Comment microservice to delete all comments with deleted postId
 - Comment to Post: Adding comment will first send a request to Post microservice with postId to confirm the existence of the postId. Comment will send either a HttpStatus.FOUND or HttpStatus.NOT_FOUND. If postId is found, the comment is created, else don't create and return null.
 
-![javadoc](images/javadoc.png)
+![javadoc](images/javadoc.PNG)
 
 ## Jenkins
 
