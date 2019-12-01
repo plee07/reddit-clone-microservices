@@ -27,9 +27,10 @@
   
   While researching, we were also developing our design for our project. As you can see in the diagram below, we used 3 services in our program: User, Post, and Comments. Each service has it's own database and each service has access to only it's database excluding User which shares a database with the Api-Gateway because that's where authorization is done. After creating our diagram, we made skeleton designs for our services and went back to doing more research on microservices. After gaining a general grasp on the idea, we started pair programming while we were on campus and assigning task for each other at home.
   
-## DevOps
+**DevOps**
   After completing the backend, we were tasked with creating the documentation for it. The technologies we used for that were Swagger, Javadocs, Jenkins, and ELK logging. Each technology documented a different part of our code. Swagger is used for API documentation so we can recreate our API calls in a controled enviroment to show how they work. Javadocs is used to document one of our classes to show what each element of the class does. Jenkins is used to show our testing so we know if our code is actually working the way it's supposed to. ELK logging is to document traffic, errors, and other important information.
-
+  
+  Our planning for creating the documentation was similar to planning for creating the backend, with a little more research. In this case, there was a lot more configuration we had to do to document our code, so we had to do more research on how to properly config the documentation technologies. The only bits of code we had to write was for our unit and intergration test so we split the work for unit testing by services and pair-programmed for the intergration test. Our configuration was split between technologies too because there were a lot of configurations that had to be done and the decided that the best way to tackle them is to divide and conquer the work. 
 
 
 ## Design
