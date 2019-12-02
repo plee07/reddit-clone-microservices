@@ -3,8 +3,6 @@ package com.ga.commentapi.interservice;
 import com.google.common.io.Files;
 import org.apache.qpid.server.Broker;
 import org.apache.qpid.server.BrokerOptions;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.ClassRule;
 import org.junit.Test;
 import org.junit.rules.ExternalResource;
@@ -22,11 +20,10 @@ import java.io.FileInputStream;
 import java.util.Properties;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
 
 @RunWith(SpringRunner.class)
-@SpringBootTest("scanBasePackages")
+@SpringBootTest
 public class RabbitmqTest {
 
     @Value("${spring.rabbitmq.port}")
@@ -45,7 +42,6 @@ public class RabbitmqTest {
     @Autowired
     private Reciever reciever;
 
-    //TODO Extract external util class (Start(Stop Rabbitmq )
     @ClassRule
     public static final ExternalResource resource = new ExternalResource() {
         private Broker broker = new Broker();
@@ -85,5 +81,5 @@ public class RabbitmqTest {
         assertThat(reciever.getCounter()).isEqualTo(2);
     }
 
-   
+
 }

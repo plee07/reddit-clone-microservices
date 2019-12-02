@@ -1,16 +1,16 @@
 package com.ga.commentapi.service;
 
-import com.ga.commentapi.exception.PostNotFoundException;
-import com.ga.commentapi.model.UserBean;
-import com.ga.commentapi.model.CommentModel;
-import com.ga.commentapi.repository.CommentRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ga.commentapi.exception.PostNotFoundException;
+import com.ga.commentapi.model.CommentModel;
+import com.ga.commentapi.model.UserBean;
+import com.ga.commentapi.repository.CommentRepository;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service

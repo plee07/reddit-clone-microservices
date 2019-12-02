@@ -31,7 +31,7 @@ public class UserControllerTest {
     private User user;
 
     @InjectMocks
-    UserController userController;
+    userController userController;
 
     @InjectMocks
     GlobalExceptionHandler globalExceptionHandler;

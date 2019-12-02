@@ -2,26 +2,22 @@ package com.ga.commentapi.exceptiontest;
 
 import com.ga.commentapi.controller.CommentController;
 import com.ga.commentapi.exception.GlobalExceptionHandler;
-import com.ga.commentapi.model.commentModel;
+import com.ga.commentapi.model.CommentModel;
 import com.ga.commentapi.service.CommentServiceImpl;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.MethodInvocationException;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -32,7 +28,7 @@ public class CommentExceptionTest {
     CommentController commentController;
 
     @InjectMocks
-    commentModel commentModel;
+    CommentModel commentModel;
 
     @Mock
     CommentServiceImpl commentService;

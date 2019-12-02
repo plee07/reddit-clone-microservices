@@ -3,7 +3,6 @@ package com.ga.commentapi.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ga.commentapi.exception.PostNotFoundException;
 import com.ga.commentapi.model.CommentModel;
-import com.ga.commentapi.model.UserBean;
 import com.ga.commentapi.repository.CommentRepository;
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNull;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
