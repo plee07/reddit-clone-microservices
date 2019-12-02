@@ -1,5 +1,6 @@
 package com.example.apigateway.security;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.junit.runner.RunWith;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,7 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.test.context.support.WithMockUser;
+import static org.junit.Assert.assertEquals;
 
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
@@ -17,7 +18,9 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 @RunWith(MockitoJUnitRunner.class)
 public class JwtRequestFilterTest {
@@ -41,10 +44,10 @@ public class JwtRequestFilterTest {
     @Mock
     private SecurityContext securityContext;
 
+    final OutputStream outContent = new ByteArrayOutputStream();
+
     @Test
-    @WithMockUser(username = "batman", value= "userDetails")
     public void doFilterInternal_SUCCESS() throws ServletException, IOException {
-        System.out.println(userDetails.getUsername());
         when(req.getHeader(any())).thenReturn("Bearer 1234");
         when(jwtUtil.getUsernameFromToken(any())).thenReturn("testUser");
 //        when(securityContext.getAuthentication()).thenReturn(auth);
@@ -54,11 +57,21 @@ public class JwtRequestFilterTest {
         reqFilter.doFilterInternal(req, res, chain);
     }
 
-//    @Test
-//    public void doFilterInternal_IllegalArgument() throws ServletException, IOException {
-//        when(req.getHeader(any())).thenReturn("Bearer 1234");
-//        when(jwtUtil.getUsernameFromToken(any())).thenThrow(IllegalArgumentException.class);
-//    }
+    @Test
+    public void doFilterInternal_IllegalArgument() throws ServletException, IOException, IllegalArgumentException {
+        when(req.getHeader(any())).thenReturn("Bearer 1234");
+        when(jwtUtil.getUsernameFromToken(any())).thenThrow(IllegalArgumentException.class);
+        reqFilter.doFilterInternal(req, res, chain);
+//        assertEquals("JWT Token has expired", outContent.toString());
+    }
+
+    @Test
+    public void doFilterInternal_ExpiredToken() throws ServletException, IOException {
+        when(req.getHeader(any())).thenReturn("Bearer 1234");
+        when(jwtUtil.getUsernameFromToken(any())).thenThrow(ExpiredJwtException.class);
+        reqFilter.doFilterInternal(req, res, chain);
+//        assertEquals("JWT Token has expired", outContent.toString());
+    }
 
 
 }

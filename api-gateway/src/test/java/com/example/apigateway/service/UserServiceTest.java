@@ -46,4 +46,11 @@ public class UserServiceTest {
 
     }
 
+    @Test
+    public void userSetter_SUCCESS(){
+        User testUser = new User();
+        testUser.setUserId(1L);
+        assertEquals(new Long(1L), testUser.getUserId());
+    }
+
 }
