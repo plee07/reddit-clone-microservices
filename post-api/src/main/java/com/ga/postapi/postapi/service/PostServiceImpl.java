@@ -80,7 +80,7 @@ public class PostServiceImpl implements PostService {
         } catch (Exception e){
             return "NOT_FOUND";
         }
-       return json.writeValueAsString(String.valueOf(post.getPostId()));
+        return (postId != null) ? json.writeValueAsString(String.valueOf(post.getPostId())) : "NOT_FOUND";
     }
 
     @Override
