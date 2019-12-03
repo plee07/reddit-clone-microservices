@@ -1,5 +1,5 @@
 # Reddit-Clone-Microservices
- Welecome to our Reddit-clone Application using Microservices. For this project, we created a back-end for a preexising front-end application using Java Spring-Boot Microservices. This application is designed to mirror the messaging board Reddit, where users can create a new user, create a post, and create a comment for those post. Other features includes updating your user information/profiles, deleting your post/comments, and user authentication. 
+ Welecome to our Reddit-clone Application using Microservices. For this project, we created a back-end for a preexising front-end application using Java Spring-Boot Microservices. This application is designed to function like the messaging board Reddit, where users can create a new user, create a post, and create a comment for those post. Other features includes updating your user information/profiles, deleting your post/comments, user authentication, and email notification. 
 
 ## Technologies Used
 <li>
