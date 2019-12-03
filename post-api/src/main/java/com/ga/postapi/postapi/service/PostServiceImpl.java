@@ -74,9 +74,13 @@ public class PostServiceImpl implements PostService {
     @RabbitListener(queuesToDeclare = @Queue("checkPostId"))
     public String confirmId(String message) throws JsonProcessingException {
         Long postId = Long.parseLong(message.split(":")[1]);
+//        Post post = postRepository.findPostByPostId(postId);
         Post post;
         try{
-            post = postRepository.findPostByPostId(postId);
+//            post = postRepository.findPostByPostId(postId);
+            post = postRepository.findById(postId).get();
+            System.out.println(post.getTitle());
+
         } catch (Exception e){
             return "NOT_FOUND";
         }
@@ -87,7 +91,7 @@ public class PostServiceImpl implements PostService {
     @RabbitListener(queuesToDeclare = @Queue("getPostById"))
     public String getPost(String message) throws JsonProcessingException {
         Long postId = Long.parseLong(message);
-        Post post = postRepository.findPostByPostId(postId);
+        Post post = postRepository.findById(postId).get();
         String postJson = json.writeValueAsString(post);
         return postJson;
     }

@@ -91,14 +91,14 @@ public class PostServiceTest {
 
     @Test
     public void confirmId_String_SUCCESS() throws JsonProcessingException {
-        when(postRepository.findPostByPostId(any())).thenReturn(mockPost);
+        when(postRepository.findById(any())).thenReturn(java.util.Optional.ofNullable(mockPost));
         String postId = postService.confirmId("Message:1");
         Assert.assertNotEquals("NOT_FOUND", postId);
     }
 
     @Test
     public void getPost_String_SUCCESS() throws JsonProcessingException {
-        when(postRepository.findPostByPostId(any())).thenReturn(mockPost);
+        when(postRepository.findById(any())).thenReturn(java.util.Optional.ofNullable(mockPost));
 
         String expected = json.writeValueAsString(mockPost);
         String actual = postService.getPost("1");
