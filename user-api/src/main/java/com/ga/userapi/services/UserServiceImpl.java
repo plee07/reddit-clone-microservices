@@ -40,10 +40,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public String signup(User newUser) throws UserAlreadyExistsException{
         // check if user already exists
-        if(userRepository.findByUsername(newUser.getUsername()) != null)
+        if(userRepository.findByUsername(newUser.getUsername()) != null) {
+            logger.error("Username already taken");
             throw new UserAlreadyExistsException("Username is taken!");
-        else if (userRepository.findByEmail(newUser.getEmail()) != null)
+        }
+        else if (userRepository.findByEmail(newUser.getEmail()) != null) {
+            logger.error("Email already taken");
             throw new UserAlreadyExistsException("Email is already taken!");
+        }
 
         newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
         UserRole ur = roleRepository.findByName("ROLE_USER");
