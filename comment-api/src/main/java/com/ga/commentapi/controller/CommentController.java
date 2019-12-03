@@ -27,7 +27,7 @@ public class CommentController {
     @PostMapping("/post/{postId}")
     @RestResource(path = "/post/{postId}")
     @ApiOperation("Creates your comments")
-    public CommentModel createComment(@Valid @RequestBody CommentModel comment, @PathVariable long postId, @RequestHeader("username") String username, @RequestHeader("userId") String id) throws JsonProcessingException {
+    public CommentModel createComment(@Param("postId, comment, userid, username")@PathVariable long postId, @Valid @RequestBody CommentModel comment, @RequestHeader("username") String username, @RequestHeader("userId") String id) throws JsonProcessingException {
         return commentService.createComment(postId, comment, id, username);
     }
 

@@ -3,8 +3,6 @@
 //import com.google.common.io.Files;
 //import org.apache.qpid.server.Broker;
 //import org.apache.qpid.server.BrokerOptions;
-//import org.junit.Assert;
-//import org.junit.Before;
 //import org.junit.ClassRule;
 //import org.junit.Test;
 //import org.junit.rules.ExternalResource;
@@ -29,9 +27,11 @@
 //public class RabbitmqTest {
 //
 //    @Value("${spring.rabbitmq.port}")
-//    private  String rabbitmqPort;
+//    private String rabbitmqPort;
+//
+//
 //    public static final String QPID_CONFIG_LOCATION = "src/test/resources/qpid-config.json";
-//    public static final String APPLICATION_CONFIG_LOCATION = "src/test/resources/application-test.properties";
+//    public static final String APPLICATION_CONFIG_LOCATION = "src/test/resources/application.properties";
 //
 //    @MockBean
 //    private Runner runner;
@@ -43,7 +43,7 @@
 //    private Reciever reciever;
 //
 //    @ClassRule
-//    public static final ExternalResource resource = new  ExternalResource() {
+//    public static final ExternalResource resource = new ExternalResource() {
 //        private Broker broker = new Broker();
 //
 //        @Override
@@ -71,11 +71,15 @@
 //
 //    };
 //
+//
 //    @Test
 //    public void testWithFirstReceiverRoutingKey() throws Exception {
 //        reciever.initCounter();
 //        rabbitTemplate.convertAndSend("TestQueue", "Hello from RabbitMQ Sent 1!");
 //        rabbitTemplate.convertAndSend("TestQueue", "Hello from RabbitMQ Sent 2!");
+//        Thread.sleep(5000);
 //        assertThat(reciever.getCounter()).isEqualTo(2);
 //    }
+//
+//
 //}

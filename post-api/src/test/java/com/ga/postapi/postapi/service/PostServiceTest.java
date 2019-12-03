@@ -11,8 +11,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.amqp.rabbit.annotation.Queue;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -20,9 +18,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 
 
 @RunWith(SpringRunner.class)
@@ -49,6 +46,7 @@ public class PostServiceTest {
         mockPost.setPostId(1L);
         mockPost.setUsername("batman");
         postList.add(mockPost);
+        postRepository.save(mockPost);
     }
 
     @Test
@@ -76,6 +74,28 @@ public class PostServiceTest {
     }
 
     @Test
+    public void confirmId_IdFound_Success() throws JsonProcessingException {
+        when(postRepository.findPostByPostId(mockPost.getPostId())).thenReturn(mockPost);
+        String foundpost = postService.confirmId("checkPostId:1");
+        Assert.assertNotNull(foundpost);
+    }
+
+    @Test
+    public void deletePost_PostDeleted_Success()  //Rabbit Sender
+    {
+        rabbitTemplate.convertAndSend("deleteCommentsByPostId",1);
+        when(postRepository.findById(mockPost.getPostId()).get()).thenReturn(mockPost);
+        postRepository.deleteById(mockPost.getPostId());
+        Assert.assertNull(mockPost);
+    }
+
+    @Test
+    public void getPost_gotPost_Success() throws JsonProcessingException {
+        when(postRepository.findPostByPostId(anyLong())).thenReturn(mockPost);
+        String foundpost = postService.getPost("1");
+        Assert.assertNotNull(foundpost);
+    }
+
     public void deletePost_HTTPSTATUS_SUCCESS(){
         when(rabbitTemplate.convertSendAndReceive(anyString(),any(Class.class))).thenReturn("OK");
         HttpStatus test = postService.deletePost(1L);
@@ -113,5 +133,4 @@ public class PostServiceTest {
         Assert.assertEquals(ubTest, ub.getUsername());
 
     }
-
 }

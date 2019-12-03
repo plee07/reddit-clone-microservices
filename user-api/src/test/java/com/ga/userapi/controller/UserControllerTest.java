@@ -24,14 +24,14 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class UserControllerTest {
 
     private MockMvc mockMvc;
     private User user;
 
     @InjectMocks
-    UserController userController;
+    userController userController;
 
     @InjectMocks
     GlobalExceptionHandler globalExceptionHandler;

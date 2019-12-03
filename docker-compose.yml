@@ -2,10 +2,11 @@ version: '3'
 
 services:
   rabbitmq:
-    image: "rabbitmq:management"
-    ports:
-      - "15672:15672"
-      - "5672:5672"  
+      image: "rabbitmq:management"
+      ports:
+        - "15672:15672"
+        - "5672:5672"
+      
   eureka:
     #image: maven:3.6.1-jdk-8
     build: ./eureka-server
@@ -115,4 +116,3 @@ services:
       - SPRING_PROFILES_ACTIVE=dev
     links:
       - rabbitmq
-  
