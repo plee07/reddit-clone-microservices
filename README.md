@@ -24,9 +24,18 @@
 - https://www.pivotaltracker.com/n/projects/2416905
 
 ## Planning
-   For this project, we divided our time between coding and researching because we figured that we can get the most out of the new information we recieved. Our research consisted of learning more about microservices and how they are implemented when using inter-service communication and security. On November 11th, we discussed general design and wrote our user stories on pivital tracker. On the 12th, we started creating the Api-Gsteway and the Eureka servers. On the 13th, we started coding our microservices Post and Comments. On the 14th, we started creating User service. Lastly, on the 15th, we worked on deploying our work to the cloud. 
+   
+**Starter Code**
+   For this project, we divided our time between coding and researching because we figured that we can get the most out of the new information we recieved by relying back and forth what we learned and putting it into practice. Our research consisted of learning more about microservices, how they are implemented when using inter-service communication, security. On November 11th, we discussed our general design by drawing our architecture and we wrote our user stories on pivital tracker. We also created skeleton code for our services. On the 12th, we started creating the Api-Gateway and the Eureka servers. On the 13th, we started coding our microservices Post and Comments. On the 14th, we started creating User service. Lastly, on the 15th, we worked on deploying our work to the cloud. 
   
-  While researching, we were also developing our design for our project. As you can see in the diagram below, we used 3 services in our program: User, Post, and Comments. Each service has it's own database and each service has access to only it's database excluding User which shares a database with the Api-Gateway because that's where authorization is done. After creating our diagram, we made skeleton designs for our services and went back to doing more research on microservices. After gaining a general grasp on the idea, we started pair programming while we were on campus and assigning task for each other at home.
+  While researching, we were also developing our design for our project. As you can see in the diagram below, we used 3 services in our program: User, Post, and Comments. Each service has it's own database and each service has access to only it's database excluding User which shares a database with the Api-Gateway because that's where authorization is done. After creating our diagram, we made skeleton designs for our services and went back to doing more research on microservices. After gaining a general grasp on the idea, we started pair programming while we were on campus and assigning task for each other at home. For the second part of this project, we created another microservice called Email services, whose only job is to send out a email to the user whose post recieved a comment.
+  
+ **RabbitMq**
+    For our interservice communication, we used a messaging queue called RabbitMq. The way our RabbitMq works is that it stores our requests from the services into queues and depending on the request, the services either sends information back to the requesting service or it just completes the request. Our RabbitMq server handles our interservice communications between the Post and Comments services and between all the services and the Email service. The communication between Post and Comments is described like so: 
+    <li>
+       When the request is to delete a Post, all comments associated to that Post gets deleted too. Therefore, our Post service sends a request to Comment serivce, sending the PostId of the post bound to get deleted, so the Comment service can delete all the comments on that post.
+    <li>
+       
   
 **DevOps**
   
