@@ -37,13 +37,14 @@
     <li>
        When the request is to delete a Post, all comments associated to that Post gets deleted too. Therefore, our Post service sends a request to Comment serivce, sending the PostId of the post bound to get deleted, so the Comment service can delete all the comments on that post.
     <li>
-       
+       When the request is made to create a comment, Comment service sends a request to Post to check if the post exist. In this case, Post sends back a message saying if the post exist or not. If the post doesn't exist, the comment is not post. If the post does exist, the comment is posted.
+     We also have RabbitMq for our services to talk to the Email service. Whenever a comment is posted, there's an option to notify the original poster that a comment has been posted.
   
 **DevOps**
   
-  After completing the backend, we were tasked with creating the documentation for it. The technologies we used for that were Swagger, Javadocs, Jenkins, and ELK logging. Each technology documented a different part of our code. Swagger is used for API documentation so we can recreate our API calls in a controled enviroment to show how they work. Javadocs is used to document one of our classes to show what each element of the class does. Jenkins is used to show our testing so we know if our code is actually working the way it's supposed to. ELK logging is to document traffic, errors, and other important information.
+  After completing the backend, we were tasked with creating the documentation for it, testing the code, and depolying to the cloud. The technologies we used for that were Swagger, Javadocs, Jenkins, and Elstatic/Logstash/Kibana logging. Each technology documented a different part of our code. Swagger is used for API documentation so we can recreate our API calls in a controled enviroment to show how they work. Javadocs is used to document one of our classes to show what each element of the class does. Jenkins is used to show our testing in each of the services so we know if our code is actually working the way it's supposed to. ELK logging is used to document traffic, report errors, and log other important information.
   
-  Our planning for creating the documentation was similar to planning for creating the backend, with a little more research. In this case, there was a lot more configuration we had to do to document our code, so we had to do more research on how to properly config the documentation technologies. The only bits of code we had to write was for our unit and intergration test so we split the work for unit testing by services and pair-programmed for the intergration test. Our configuration was split between technologies too because there were a lot of configurations that had to be done and the decided that the best way to tackle them is to divide and conquer the work. 
+  Our planning for creating the documentation was similar to planning for creating the backend, with a little more research. In this case, there was a lot more configuration we had to do to document our code, so we had to do more research on how to properly do the configurations for the documentation technologies. The only bits of code we had to write was for our unit and intergration testing so we split the work for unit testing by services and pair-programmed for the intergration test. Our configuration was split between technologies too because there were a lot of configurations that had to be done and we decided that the best way to tackle them is to divide and conquer the work. We still pair-programmed during some configurations to make sure everything is working on both of our consoles.
 
 
 ## Design
@@ -75,3 +76,5 @@
 
 ## Problems Encountered
   This project was a hard one because of how complicated microservices were. Researching microservices lead to a lot of confusing information and differing of ideas. There were a lot of times where we just didn't know what to do and were stuck researching for a while to move on. Both microservices and cloud deployment gave us troubles because since they're fairly new material to us, we didn;t kniw how to properly implement them.
+  
+  The configuration was also fairly stressful because it took a long time for at least one service to work. Also, if we wanted to change anything in the documentation/code, we had to re-run everything from scratch so that ate up a lot of time that could have been put to better use.
