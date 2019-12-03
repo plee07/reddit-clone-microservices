@@ -54,7 +54,7 @@ public class EmailService {
             // send mail
             SimpleMailMessage msg = new SimpleMailMessage();
             msg.setTo(user.getEmail());
-
+//            System.out.println(post.getTitle() + " " + comment.)
             msg.setSubject("Someone responded to your post - " + post.getTitle());
             msg.setText("Hi " + user.getUsername() + "\n\n" +
                     comment.getUser().getUsername() + " responded to your post - " + post.getTitle() + "\n\n" + "Comment: " + comment.getText()

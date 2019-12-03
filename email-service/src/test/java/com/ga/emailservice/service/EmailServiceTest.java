@@ -56,6 +56,15 @@ public class EmailServiceTest {
     @Before
     public void init()
     {
+        user = new User();
+        user.setUsername("Batman");
+
+        userBean = new UserBean();
+        userBean.setEmail("test@test98756.com");
+        userBean.setPassword("Batman");
+        userBean.setUserId(1L);
+        userBean.setUsername("Batman");
+
         commentBean = new CommentBean();
         commentBean.setCommentId(1L);
         commentBean.setNotifyOP(true);
@@ -71,14 +80,7 @@ public class EmailServiceTest {
         postBean.setUser(user);
         postBean.setUserId(1L);
 
-        user = new User();
-        user.setUsername("Batman");
 
-        userBean = new UserBean();
-        userBean.setEmail("test@test98756.com");
-        userBean.setPassword("Batman");
-        userBean.setUserId(1L);
-        userBean.setUsername("Batman");
     }
 
     @Test
@@ -87,7 +89,8 @@ public class EmailServiceTest {
         String post_str = json.writeValueAsString(postBean);
         String user_str = json.writeValueAsString(userBean);
         when(rabbitTemplate.convertSendAndReceive(anyString(),anyString())).thenReturn(post_str, user_str);
-        doNothing().when(javaMailSender).send(any(SimpleMailMessage.class));
+//        doNothing().when(javaMailSender).send(any(SimpleMailMessage.class));
+        doNothing().when(javaMailSender).send((MimeMessage) any());
         emailService.notifyOriginalPoster(comment_str);
 
 
