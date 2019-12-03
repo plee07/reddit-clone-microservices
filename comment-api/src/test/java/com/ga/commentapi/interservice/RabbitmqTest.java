@@ -1,8 +1,13 @@
 //package com.ga.commentapi.interservice;
 //
+//import com.ga.commentapi.model.UserBean;
+//import com.ga.commentapi.model.commentModel;
+//import com.ga.commentapi.repository.CommentRepository;
 //import com.google.common.io.Files;
 //import org.apache.qpid.server.Broker;
 //import org.apache.qpid.server.BrokerOptions;
+//import org.junit.Assert;
+//import org.junit.Before;
 //import org.junit.ClassRule;
 //import org.junit.Test;
 //import org.junit.rules.ExternalResource;
@@ -20,14 +25,15 @@
 //import java.util.Properties;
 //
 //import static org.assertj.core.api.Assertions.assertThat;
-//
+//import static org.mockito.Mockito.when;
 //
 //@RunWith(SpringRunner.class)
-//@SpringBootTest
+//@SpringBootTest("scanBasePackages")
 //public class RabbitmqTest {
 //
 //    @Value("${spring.rabbitmq.port}")
 //    private String rabbitmqPort;
+//    private static commentModel comment = new commentModel();
 //
 //
 //    public static final String QPID_CONFIG_LOCATION = "src/test/resources/qpid-config.json";
@@ -41,6 +47,9 @@
 //
 //    @Autowired
 //    private Reciever reciever;
+//
+//    @Autowired
+//    CommentRepository commentRepository;
 //
 //    @ClassRule
 //    public static final ExternalResource resource = new ExternalResource() {
@@ -61,6 +70,13 @@
 //            brokerOptions.setConfigProperty("qpid.home_dir", homePath);
 //            brokerOptions.setInitialConfigurationLocation(homePath + "/" + QPID_CONFIG_LOCATION);
 //            broker.startup(brokerOptions);
+//            comment = new commentModel();
+//            comment.setUsername("Batman");
+//            comment.setPostId(1L);
+//            comment.setUserId(1L);
+//            comment.setUserId(1L);
+//            comment.setText("I am the night");
+//            comment.setCommentId(1L);
 //        }
 //
 //
@@ -81,5 +97,25 @@
 //        assertThat(reciever.getCounter()).isEqualTo(2);
 //    }
 //
-//
+//    public commentModel createCommentTest(Long postId, commentModel comment, String id, String username)
+//    {
+//        //when(rabbitTemplate.convertSendAndReceive("TestQueue",message)).thenReturn("1");
+//        String message = "checkPostId:" + postId;
+//        String postfound = (String) rabbitTemplate.convertSendAndReceive("Broker",message);
+//        comment.setPostId(postId);
+//        comment.setUserId(Long.parseLong(id));
+//        comment.setUsername(username);
+//        comment.setUser(new UserBean(username));
+//        System.out.println(postfound);
+//        return commentRepository.save(comment);
+//    }
+//    @Test
+//    public void createCommentSuccess()
+//    {
+//        commentModel mycomment = createCommentTest(comment.getPostId(),comment,comment.getUserId().toString(),comment.getUsername());
+//        System.out.println("reach");
+//        System.out.println(mycomment.getText());
+//        Assert.assertEquals(mycomment.getText(),comment.getText());
+//    }
 //}
+

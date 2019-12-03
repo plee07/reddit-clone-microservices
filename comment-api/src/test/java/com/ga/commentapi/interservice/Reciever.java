@@ -16,6 +16,12 @@
 //        count++;
 //    }
 //
+//    @RabbitListener(queuesToDeclare = @Queue("Broker"))
+//    public String brokerTest(String message)
+//    {
+//        return "Post Found";
+//    }
+//
 //    public Integer getCounter() {
 //        return count;
 //    }
