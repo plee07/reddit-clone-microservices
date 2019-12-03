@@ -38,7 +38,8 @@
        When the request is to delete a Post, all comments associated to that Post gets deleted too. Therefore, our Post service sends a request to Comment serivce, sending the PostId of the post bound to get deleted, so the Comment service can delete all the comments on that post.
     <li>
        When the request is made to create a comment, Comment service sends a request to Post to check if the post exist. In this case, Post sends back a message saying if the post exist or not. If the post doesn't exist, the comment is not post. If the post does exist, the comment is posted.
-     We also have RabbitMq for our services to talk to the Email service. Whenever a comment is posted, there's an option to notify the original poster that a comment has been posted.
+     
+  We also have RabbitMq for our services to talk to the Email service. Whenever a comment is posted, there's an option to notify the original poster that a comment has been posted.
   
 **DevOps**
   
