@@ -29,6 +29,7 @@ public class CommentServiceImpl implements CommentService {
             throws JsonProcessingException, PostNotFoundException {
         String message = "checkPostId:" + postId;
         String postIdCheck = (String) rabbitTemplate.convertSendAndReceive("checkPostId",message);
+        System.out.println("COMMEN SIDE " + postIdCheck);
         if(!postIdCheck.equals("NOT_FOUND")){
             comment.setPostId(postId);
             comment.setUserId(Long.parseLong(id));
