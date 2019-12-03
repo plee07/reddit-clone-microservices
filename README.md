@@ -36,7 +36,7 @@
 
 
 ## Design
-![design](images/design.png)
+![design](images/design2.PNG)
 
 **Api-Gateway**
 - API Gateway will act as the Authentication service. Once the validity of the token is confirmed, a pre-filter is applied to send to all route the username and userId in the request header.
