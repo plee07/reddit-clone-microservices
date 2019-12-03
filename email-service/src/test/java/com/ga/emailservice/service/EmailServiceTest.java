@@ -12,8 +12,21 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import javax.mail.internet.MimeMessage;
+
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.junit.Assert.assertEquals;
+
+
+import java.io.IOException;
 
 @RunWith(SpringRunner.class)
 public class EmailServiceTest {
@@ -21,26 +34,29 @@ public class EmailServiceTest {
     private ObjectMapper json = new ObjectMapper();
 
     @InjectMocks
+    private EmailService emailService;
+
+    @Mock
     private RabbitTemplate rabbitTemplate;
 
-    @InjectMocks
+    @Mock
     JavaMailSenderImpl javaMailSender;
 
-    @Mock
-    CommentBean commentBean;
 
-    @Mock
-    PostBean postBean;
+    private CommentBean commentBean;
 
-    @Mock
-    UserBean userBean;
 
-    @Mock
-    User user;
+    private PostBean postBean;
+
+
+    private UserBean userBean;
+
+    private User user;
 
     @Before
     public void init()
     {
+        commentBean = new CommentBean();
         commentBean.setCommentId(1L);
         commentBean.setNotifyOP(true);
         commentBean.setPostId(1L);
@@ -48,33 +64,35 @@ public class EmailServiceTest {
         commentBean.setUser(user);
         commentBean.setUserId(1L);
 
+        postBean = new PostBean();
         postBean.setDescription("This is post description");
         postBean.setPostId(1L);
         postBean.setTitle("My first title");
         postBean.setUser(user);
         postBean.setUserId(1L);
 
+        user = new User();
         user.setUsername("Batman");
 
-        userBean.setEmail("kty5876@gmail.com");
+        userBean = new UserBean();
+        userBean.setEmail("test@test98756.com");
         userBean.setPassword("Batman");
         userBean.setUserId(1L);
         userBean.setUsername("Batman");
     }
 
-//    @Test
-//    public void EmailSender_SentEmail_Success() throws IOException {
-//        String postJson = "My Post";
-//        String userJson = "My User";
-//        when(json.readValue(anyString(),CommentBean.class)).thenReturn(commentBean);
-//        when(json.readValue(anyString(),PostBean.class)).thenReturn(postBean);
-//        when(rabbitTemplate.convertSendAndReceive("getPostById", anyLong())).thenReturn(postJson);
-//        when(json.readValue(anyString(),UserBean.class)).thenReturn(userBean);
-//        when(rabbitTemplate.convertSendAndReceive("getUserById", anyLong())).thenReturn(userJson);
-//
-//
-//
-//    }
+    @Test
+    public void EmailSender_SentEmail_Success() throws IOException {
+        String comment_str = json.writeValueAsString(commentBean);
+        String post_str = json.writeValueAsString(postBean);
+        String user_str = json.writeValueAsString(userBean);
+        when(rabbitTemplate.convertSendAndReceive(anyString(),anyString())).thenReturn(post_str, user_str);
+        doNothing().when(javaMailSender).send(any(SimpleMailMessage.class));
+        emailService.notifyOriginalPoster(comment_str);
+
+
+    }
+
     @Test
     public void UserBean_Model_Test(){
         UserBean ub = new UserBean();
