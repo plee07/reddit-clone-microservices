@@ -36,7 +36,7 @@
 
 
 ## Design
-![design](images/design2.PNG) ![ERD](images/Basic Database ERD Diagram(Crows's Foot).PNG)
+![design](images/design2.PNG) ![ERD](images/Basic%20Database%20ER%20Diagram%20(Crow's%20Foot).png)
 
 **Api-Gateway**
 - API Gateway will act as the Authentication service. Once the validity of the token is confirmed, a pre-filter is applied to send to all route the username and userId in the request header.
