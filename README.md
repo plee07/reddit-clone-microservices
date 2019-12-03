@@ -1,4 +1,5 @@
 # Reddit-Clone-Microservices
+ Welecome to our Reddit-clone Application using Microservices. For this project, we created a back-end for a preexising front-end application using Java Spring-Boot Microservices. This application is designed to mirror the messaging board Reddit, where users can create a new user, create a post, and create a comment for those post. Other features includes updating your user information/profiles, deleting your post/comments, and user authentication. 
 
 ## Technologies Used
 <li>
@@ -23,7 +24,7 @@
 - https://www.pivotaltracker.com/n/projects/2416905
 
 ## Planning
-  For this project, we divided our time between coding and researching so we can get the most out of the new information we recieved. Our research consisted of learning more about microservices and how they are implemented when using inter-service communication and security. On November 11th, we discussed general design and wrote our user stories on pivital tracker. On the 12th, we started creating the Api-Gsteway and the Eureka servers. On the 13th, we started coding our microservices Post and Comments. On the 14th, we started creating User service. Lastly, on the 15th, we worked on deploying our work to the cloud. 
+   For this project, we divided our time between coding and researching because we figured that we can get the most out of the new information we recieved. Our research consisted of learning more about microservices and how they are implemented when using inter-service communication and security. On November 11th, we discussed general design and wrote our user stories on pivital tracker. On the 12th, we started creating the Api-Gsteway and the Eureka servers. On the 13th, we started coding our microservices Post and Comments. On the 14th, we started creating User service. Lastly, on the 15th, we worked on deploying our work to the cloud. 
   
   While researching, we were also developing our design for our project. As you can see in the diagram below, we used 3 services in our program: User, Post, and Comments. Each service has it's own database and each service has access to only it's database excluding User which shares a database with the Api-Gateway because that's where authorization is done. After creating our diagram, we made skeleton designs for our services and went back to doing more research on microservices. After gaining a general grasp on the idea, we started pair programming while we were on campus and assigning task for each other at home.
   
