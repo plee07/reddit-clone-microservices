@@ -17,11 +17,13 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        System.out.println("I am here");
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
+            System.out.println(fieldName + " " + errorMessage);
         });
         return new ResponseEntity(errors, HttpStatus.BAD_REQUEST);
     }

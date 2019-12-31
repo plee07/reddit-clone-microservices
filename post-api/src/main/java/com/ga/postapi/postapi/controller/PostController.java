@@ -17,11 +17,6 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-//    @GetMapping("/test")
-//    public String test(@RequestHeader("Authorization") String username){
-//        return username;
-//    }
-
     @GetMapping("/list")
     @RestResource(path = "/list")
     @ApiOperation("This returns a list of post")
@@ -33,7 +28,7 @@ public class PostController {
     @PostMapping("/post")
     @RestResource(path = "/post")
     @ApiOperation("This creates your post")
-    public Post createPost(@Valid @Param("post, username, userId") @RequestBody Post post, @RequestHeader("username") String username, @RequestHeader("userId") String id) {
+    public Post createPost(@Param("post, username, userId") @Valid @RequestBody Post post, @RequestHeader("username") String username, @RequestHeader("userId") String id) {
         return postService.createPost(post, id, username);
     }
 
@@ -47,9 +42,9 @@ public class PostController {
 
     @GetMapping("/user/{userId}")
     @RestResource(path = "/user/{userId}")
-    public Iterable<Post> getPostByUserId(@Param("userId, username") @PathVariable Long userId, @RequestHeader("username") String username)
+    public Iterable<Post> getPostByUserId(@PathVariable Long userId)
     {
-        return postService.getPostByUserId(username,userId);
+        return postService.getPostByUserId(userId);
     }
 
     @GetMapping("/user")

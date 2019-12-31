@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -32,13 +35,19 @@ public class UserServiceImpl implements UserService {
     @Qualifier("encoder")
     PasswordEncoder bCryptPasswordEncoder;
 
+    private static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class.getName());
+
     @Override
     public String signup(User newUser) throws UserAlreadyExistsException{
         // check if user already exists
-        if(userRepository.findByUsername(newUser.getUsername()) != null)
+        if(userRepository.findByUsername(newUser.getUsername()) != null) {
+            logger.error("Username already taken");
             throw new UserAlreadyExistsException("Username is taken!");
-        else if (userRepository.findByEmail(newUser.getEmail()) != null)
+        }
+        else if (userRepository.findByEmail(newUser.getEmail()) != null) {
+            logger.error("Email already taken");
             throw new UserAlreadyExistsException("Email is already taken!");
+        }
 
         newUser.setPassword(bCryptPasswordEncoder.encode(newUser.getPassword()));
         UserRole ur = roleRepository.findByName("ROLE_USER");
@@ -68,6 +77,7 @@ public class UserServiceImpl implements UserService {
             return jwtUtil.generateToken(loggedInUser);
         }
         else {
+            logger.error("Incorrect Login Credentials: LOG!");
             throw new IncorrectLoginException("Incorrect Login Credentials");
         }
     }

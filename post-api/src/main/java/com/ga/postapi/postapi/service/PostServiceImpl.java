@@ -30,7 +30,10 @@ public class PostServiceImpl implements PostService {
 
         post.setUserId(Long.parseLong(id));
         post.setUsername(username);
-        post.setUser(new UserBean(username));
+        UserBean newUser = new UserBean();
+        newUser.setUsername(username);
+
+        post.setUser(newUser);
         return postRepository.save(post);
     }
 
@@ -53,7 +56,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Iterable<Post> getPostByUserId(String username, Long userId) {
+    public Iterable<Post> getPostByUserId(Long userId) {
 
         return postRepository.findPostsByUserId(userId);
     }
@@ -71,14 +74,17 @@ public class PostServiceImpl implements PostService {
     @RabbitListener(queuesToDeclare = @Queue("checkPostId"))
     public String confirmId(String message) throws JsonProcessingException {
         Long postId = Long.parseLong(message.split(":")[1]);
+//        Post post = postRepository.findPostByPostId(postId);
         Post post;
         try{
+//            post = postRepository.findPostByPostId(postId);
             post = postRepository.findById(postId).get();
-            if(post == null) System.out.println("THIS IS NULL!");
+            System.out.println(post.getTitle());
+
         } catch (Exception e){
             return "NOT_FOUND";
         }
-       return json.writeValueAsString(String.valueOf(post.getPostId()));
+        return (postId != null) ? json.writeValueAsString(String.valueOf(post.getPostId())) : "NOT_FOUND";
     }
 
     @Override

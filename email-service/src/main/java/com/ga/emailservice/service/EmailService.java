@@ -34,14 +34,15 @@ public class EmailService {
         try{
             // save comment details
             comment = (CommentBean) json.readValue(message, CommentBean.class);
-
+            System.out.println("DOES IT REACH HERE +==>" + comment.getText());
             // retrieve post details
             String postId = String.valueOf(comment.getPostId());
             String postJson = (String) template.convertSendAndReceive("getPostById", postId);
+            System.out.println(postJson);
             post = json.readValue(postJson, PostBean.class);
+            System.out.println("DOES IT REACH HERE POST+==>" + post.getDescription());
 
             // retrieve original poster details
-
             String userId = String.valueOf(post.getUserId());
             System.out.println("USER ID IS: " + userId);
             String userJson = (String) template.convertSendAndReceive("getUserById", userId);
@@ -53,11 +54,10 @@ public class EmailService {
             // send mail
             SimpleMailMessage msg = new SimpleMailMessage();
             msg.setTo(user.getEmail());
-
+//            System.out.println(post.getTitle() + " " + comment.)
             msg.setSubject("Someone responded to your post - " + post.getTitle());
             msg.setText("Hi " + user.getUsername() + "\n\n" +
-                    comment.getUser().getUsername() + " responded to your post - " + post.getTitle() + "\n\n" +
-                    "Comment: " + comment.getText()
+                    comment.getUser().getUsername() + " responded to your post - " + post.getTitle() + "\n\n" + "Comment: " + comment.getText()
             );
 
             javaMailSender.send(msg);

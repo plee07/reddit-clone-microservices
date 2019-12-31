@@ -33,7 +33,6 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = getUser(username);
         if(user==null) return null;
-//            throw new UsernameNotFoundException("User null");
         return new org.springframework.security.core.userdetails.User(user.getUsername(), bCryptPasswordEncoder.encode(user.getPassword()),
                 true, true, true, true, getGrantedAuthorities(user));
     }

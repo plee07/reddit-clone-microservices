@@ -35,15 +35,15 @@ pipeline {
         stage('Coverage') {
             steps {
                 dir("post-api"){
-                    sh 'mvn cobertura:cobertura -Dcobertura.report.format=xml'    
+                    sh 'mvn clean package jacoco:report'
                 }
             }
             post {
                 always {
-                  dir("post-api"){
-                      cobertura coberturaReportFile: 'target/site/cobertura/coverage.xml'
-                  }
-                }
+                    dir("post-api"){
+                        publishCoverage adapters: [jacocoAdapter('target/site/jacoco/jacoco.xml')]
+                    }
+                } 
             }
         }
     }

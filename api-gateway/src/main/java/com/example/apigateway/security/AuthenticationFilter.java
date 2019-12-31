@@ -31,6 +31,6 @@ public class AuthenticationFilter extends ZuulFilter {
         User user = userService.getUser(username);
         if(user != null)  ctx.addZuulRequestHeader("userId", String.valueOf(user.getUserId()));
         ctx.addZuulRequestHeader("username", username);
-        return null;
+        return ctx;
     }
 }

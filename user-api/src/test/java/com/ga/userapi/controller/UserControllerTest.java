@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -25,14 +24,17 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(MockitoJUnitRunner.Silent.class)
 public class UserControllerTest {
 
     private MockMvc mockMvc;
     private User user;
 
     @InjectMocks
-    UserController userController;
+    userController userController;
+
+    @InjectMocks
+    GlobalExceptionHandler globalExceptionHandler;
 
     @Mock
     UserService userService;
@@ -67,6 +69,22 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().json("{\"token\":\"1234\"}"))
                 .andReturn();
+
+        System.out.println(result.getResponse().getContentAsString());
+    }
+    @Test
+    public void BAD_signup_User_Success() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/signup")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(createUserInJson("test","tester", "testertester.com"));
+
+        when(userService.signup(any())).thenReturn("1234");
+
+        MvcResult result = mockMvc.perform(requestBuilder)
+                .andExpect(status().isBadRequest()).andReturn();
+//                .andExpect(content().json("{\"token\":\"1234\"}"))
+//                .andReturn();
 
         System.out.println(result.getResponse().getContentAsString());
     }
